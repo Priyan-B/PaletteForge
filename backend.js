@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", express.static(".frontend/dist"));
+app.use("/", express.static("frontend/dist"));
 
 app.use("/api", (req, res, next) => {
   res.set("Cache-Control", "no-store");
