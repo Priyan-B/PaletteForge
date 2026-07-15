@@ -1,0 +1,47 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app-title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.app-nav-tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.app-nav-tab {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.app-nav-tab:not(.active):hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary-light);
+}
+
+.app-nav-tab.active {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.app-main {
+  flex: 1;
+  padding: 1.5rem;
+}

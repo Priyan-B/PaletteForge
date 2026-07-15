@@ -15,7 +15,25 @@ app.use("/api", (req, res, next) => {
   res.set("Cache-Control", "no-store");
   next();
 });
+
+// TODO: replace with real Passport session middleware once auth is implemented.
+// Routes should only ever read req.user.id, never a client-supplied owner id.
+app.use("/api", (req, res, next) => {
+  req.user = { id: "000000000000000000000001" };
+  next();
+});
+
 app.use("/api/wireframes", wireframesRouter);
+
+app.use("/api", (req, res) => {
+  res.status(404).json({ error: "Not found" });
+});
+
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: "Internal server error" });
+});
 
 await connectDB();
 
