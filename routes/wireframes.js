@@ -1,21 +1,10 @@
 import express from "express";
+import { getDB } from "../db/connection.js";
 
 const router = express.Router();
 
-const wireframes = [
-  {
-    id: 1,
-    name: "Wireframe 1",
-    description: "This is the first wireframe.",
-  },
-  {
-    id: 2,
-    name: "Wireframe 2",
-    description: "This is the second wireframe.",
-  },
-];
-
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+  const wireframes = await getDB().collection("wireframes").find().toArray();
   res.json(wireframes);
 });
 

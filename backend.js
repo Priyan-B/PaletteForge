@@ -1,5 +1,7 @@
+import "dotenv/config";
 import express from "express";
 import wireframesRouter from "./routes/wireframes.js";
+import { connectDB } from "./db/connection.js";
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -14,6 +16,8 @@ app.use("/api", (req, res, next) => {
   next();
 });
 app.use("/api/wireframes", wireframesRouter);
+
+await connectDB();
 
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
