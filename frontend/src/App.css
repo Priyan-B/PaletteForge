@@ -1,0 +1,42 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.app-nav-tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.app-nav-tab {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.app-nav-tab.active {
+  background: #222;
+  color: #fff;
+  border-color: #222;
+}
+
+.app-main {
+  flex: 1;
+  padding: 1.5rem;
+}
