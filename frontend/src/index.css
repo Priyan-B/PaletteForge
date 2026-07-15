@@ -27,8 +27,7 @@
   --color-fail-bg: var(--palette-fail-bg);
 
   /* ===== TYPOGRAPHY ===== */
-  --font-body:
-    system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* ===== SPACING ===== */
   --radius-sm: 4px;
