@@ -30,6 +30,8 @@ export default [
       // ESLint recommended rules
       ...js.configs.recommended.rules,
 
+      "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+
       indent: [
         "error",
         2,
