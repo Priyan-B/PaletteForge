@@ -1,0 +1,136 @@
+.pb {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  font-family: var(--font-body);
+}
+
+.pb__title {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+.pb__subtitle {
+  margin: 24px 0 12px;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.pb__name {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  margin-bottom: 16px;
+  font-family: var(--font-body);
+}
+
+.pb__roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.pb__role {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+}
+
+.pb__role input[type='color'] {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.pb__role code {
+  font-size: 0.7rem;
+  color: var(--color-text-dim);
+}
+
+.pb__actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.pb button {
+  padding: 9px 16px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.pb button.pb__ghost {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.pb button.pb__ghost:hover {
+  background: var(--color-bg);
+}
+
+.pb__error {
+  color: var(--color-fail);
+  font-size: 0.85rem;
+  margin-top: 12px;
+}
+
+.pb__muted {
+  color: var(--color-text-dim);
+  font-size: 0.85rem;
+}
+
+.pb__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pb__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+}
+
+.pb__swatches {
+  display: flex;
+  gap: 3px;
+}
+
+.pb__swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.pb__itemname {
+  flex: 1;
+  color: var(--color-text);
+  font-size: 0.9rem;
+}
