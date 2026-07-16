@@ -1,0 +1,101 @@
+.af {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  font-family: var(--font-body);
+}
+
+.af__title {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+.af__panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.af__side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.af__label {
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.af__swatch {
+  width: 84px;
+  height: 84px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.af__side code {
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+}
+
+.af__ratio {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.af__ratio.pass {
+  color: var(--color-pass);
+}
+
+.af__ratio.fail {
+  color: var(--color-fail);
+}
+
+.af__arrow {
+  font-size: 1.5rem;
+  color: var(--color-text-dim);
+}
+
+.af__note {
+  color: var(--color-fail);
+  font-size: 0.82rem;
+  margin-top: 14px;
+  text-align: center;
+}
+
+.af__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.af button {
+  padding: 9px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text);
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.af button.af__accept {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+}
