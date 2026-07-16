@@ -3,7 +3,10 @@ import WireframeBoard from "./WireframeBoard.jsx";
 import WireframeLibrary from "./WireframeLibrary.jsx";
 import PaletteExtractor from "./PaletteExtractor.jsx";
 import PaletteLibrary from "./PaletteLibrary.jsx";
+import PaletteApplyPanel from "./PaletteApplyPanel.jsx";
 import { createWireframe, updateWireframe } from "../api/wireframes.js";
+import { createPalette, updatePalette } from "../api/palettes.js";
+import { shuffleArray } from "../utils/shuffleArray.js";
 import "./WireframeStudio.css";
 
 const DEFAULT_SIZE = { width: 120, height: 80 };
@@ -30,6 +33,11 @@ function WireframeStudio() {
   const [refreshKey, setRefreshKey] = useState(0);
   const [paletteRefreshKey, setPaletteRefreshKey] = useState(0);
   const [selectedPalette, setSelectedPalette] = useState(null);
+
+  const [paletteColors, setPaletteColors] = useState([]);
+  const [paletteName, setPaletteName] = useState("Untitled Palette");
+  const [paletteCurrentId, setPaletteCurrentId] = useState(null);
+  const [paletteSourceImageName, setPaletteSourceImageName] = useState("");
 
   const addShape = (type) => {
     const shape = createShape(type);
@@ -78,6 +86,77 @@ function WireframeStudio() {
     if (deletedId === currentId) {
       handleNew();
     }
+  };
+
+  const handlePaletteNew = () => {
+    setPaletteColors([]);
+    setPaletteName("Untitled Palette");
+    setPaletteCurrentId(null);
+    setPaletteSourceImageName("");
+  };
+
+  const handlePaletteSave = async () => {
+    const data = {
+      name: paletteName,
+      colors: paletteColors,
+      sourceImageName: paletteSourceImageName,
+    };
+    let saved;
+    if (paletteCurrentId) {
+      saved = await updatePalette(paletteCurrentId, data);
+    } else {
+      saved = await createPalette(data);
+      setPaletteCurrentId(saved._id);
+    }
+    if (selectedPalette && selectedPalette._id === saved._id) {
+      setSelectedPalette(saved);
+    }
+    setPaletteRefreshKey((key) => key + 1);
+  };
+
+  const handlePaletteEdit = (palette) => {
+    setPaletteColors(palette.colors);
+    setPaletteName(palette.name);
+    setPaletteCurrentId(palette._id);
+    setPaletteSourceImageName(palette.sourceImageName || "");
+  };
+
+  const handlePaletteImageExtracted = (colors, fileName) => {
+    setPaletteColors(colors);
+    setPaletteSourceImageName(fileName);
+  };
+
+  const handlePaletteLibraryDelete = (deletedId) => {
+    if (deletedId === paletteCurrentId) {
+      handlePaletteNew();
+    }
+    if (selectedPalette && deletedId === selectedPalette._id) {
+      setSelectedPalette(null);
+    }
+  };
+
+  const handleManualMatch = (hex) => {
+    if (selectedId) {
+      updateShape(selectedId, { fillColor: hex });
+    }
+  };
+
+  const handleShuffle = () => {
+    if (
+      !selectedPalette ||
+      selectedPalette.colors.length === 0 ||
+      shapes.length === 0
+    )
+      return;
+    const shuffledColors = shuffleArray(
+      selectedPalette.colors.map((color) => color.hex)
+    );
+    setShapes((prev) =>
+      prev.map((shape, index) => ({
+        ...shape,
+        fillColor: shuffledColors[index % shuffledColors.length],
+      }))
+    );
   };
 
   const selectedShape = shapes.find((shape) => shape.id === selectedId);
@@ -165,26 +244,48 @@ function WireframeStudio() {
           </button>
         </div>
       </div>
-      <WireframeBoard
-        shapes={shapes}
-        selectedId={selectedId}
-        onSelect={setSelectedId}
-        onChange={updateShape}
-        onDeselect={() => setSelectedId(null)}
-      />
-      <WireframeLibrary
-        refreshKey={refreshKey}
-        onLoad={handleLoad}
-        onDelete={handleLibraryDelete}
-      />
-      <PaletteExtractor
-        onSaved={() => setPaletteRefreshKey((key) => key + 1)}
-      />
-      <PaletteLibrary
-        refreshKey={paletteRefreshKey}
-        onSelect={setSelectedPalette}
-      />
-      {selectedPalette && <p>Selected palette: {selectedPalette.name}</p>}
+      <div className="wireframe-workspace">
+        <div className="wireframe-column">
+          <WireframeBoard
+            shapes={shapes}
+            selectedId={selectedId}
+            onSelect={setSelectedId}
+            onChange={updateShape}
+            onDeselect={() => setSelectedId(null)}
+          />
+          <WireframeLibrary
+            refreshKey={refreshKey}
+            onLoad={handleLoad}
+            onDelete={handleLibraryDelete}
+          />
+        </div>
+        <div className="palette-sidebar">
+          <PaletteExtractor
+            name={paletteName}
+            colors={paletteColors}
+            sourceImageName={paletteSourceImageName}
+            onNameChange={setPaletteName}
+            onColorsChange={setPaletteColors}
+            onImageExtracted={handlePaletteImageExtracted}
+            onSave={handlePaletteSave}
+            onNew={handlePaletteNew}
+          />
+          {selectedPalette && (
+            <PaletteApplyPanel
+              palette={selectedPalette}
+              canMatch={!!selectedShape}
+              onMatch={handleManualMatch}
+              onShuffle={handleShuffle}
+            />
+          )}
+          <PaletteLibrary
+            refreshKey={paletteRefreshKey}
+            onSelect={setSelectedPalette}
+            onEdit={handlePaletteEdit}
+            onDelete={handlePaletteLibraryDelete}
+          />
+        </div>
+      </div>
     </div>
   );
 }

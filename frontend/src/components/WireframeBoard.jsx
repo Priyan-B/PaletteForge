@@ -10,23 +10,25 @@ function WireframeBoard({
   onDeselect,
 }) {
   return (
-    <div
-      className="wireframe-board"
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) {
-          onDeselect();
-        }
-      }}
-    >
-      {shapes.map((shape) => (
-        <Shape
-          key={shape.id}
-          shape={shape}
-          isSelected={shape.id === selectedId}
-          onSelect={onSelect}
-          onChange={onChange}
-        />
-      ))}
+    <div className="wireframe-board-wrapper">
+      <div
+        className="wireframe-board"
+        onMouseDown={(event) => {
+          if (event.target === event.currentTarget) {
+            onDeselect();
+          }
+        }}
+      >
+        {shapes.map((shape) => (
+          <Shape
+            key={shape.id}
+            shape={shape}
+            isSelected={shape.id === selectedId}
+            onSelect={onSelect}
+            onChange={onChange}
+          />
+        ))}
+      </div>
     </div>
   );
 }

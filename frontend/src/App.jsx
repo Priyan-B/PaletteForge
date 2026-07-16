@@ -31,6 +31,10 @@ function App() {
           ))}
         </div>
       </nav>
+      <p className="mobile-notice">
+        PaletteForge works best on a larger screen — dragging, resizing, and
+        color picking may not work well on mobile.
+      </p>
       <main className="app-main">
         <Component />
       </main>

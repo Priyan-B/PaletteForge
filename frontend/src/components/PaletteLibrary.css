@@ -1,33 +1,48 @@
-.wireframe-library {
+.palette-library {
   padding-top: 1rem;
   border-top: 1px solid var(--color-border);
 }
 
-.wireframe-library ul {
+.palette-library ul {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.wireframe-library-item {
+.palette-library-item {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.4rem;
+  gap: 0.75rem;
   padding: 0.5rem 0.75rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
 }
 
-.wireframe-library-actions {
+.palette-library-swatches {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.palette-library-swatch {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.palette-library-item > span {
+  flex: 1;
+}
+
+.palette-library-actions {
   display: flex;
   gap: 0.4rem;
 }
 
-.wireframe-library-actions button {
+.palette-library-actions button {
   padding: 0.3rem 0.6rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
@@ -35,7 +50,7 @@
   cursor: pointer;
 }
 
-.wireframe-library-actions button:hover {
+.palette-library-actions button:hover {
   background: var(--color-primary-light);
   border-color: var(--color-primary-light);
 }

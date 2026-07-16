@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import wireframesRouter from "./routes/wireframes.js";
+import extractedPalettesRouter from "./routes/extractedPalettes.js";
 import { connectDB } from "./db/connection.js";
 
 const PORT = process.env.PORT || 3000;
@@ -24,6 +25,7 @@ app.use("/api", (req, res, next) => {
 });
 
 app.use("/api/wireframes", wireframesRouter);
+app.use("/api/palettes/extracted", extractedPalettesRouter);
 
 app.use("/api", (req, res) => {
   res.status(404).json({ error: "Not found" });
