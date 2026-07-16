@@ -1,5 +1,5 @@
 /**
- * SECOND collection (ESM).
+ * SECOND collection(ESM).
  * Generate a report from a palette, list saved reports, delete them.
  */
 import express from 'express';
