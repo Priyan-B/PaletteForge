@@ -1,0 +1,51 @@
+/* ===== ROOT VARIABLES ===== */
+:root {
+  /* ===== PALETTE — change only these to swap the whole theme ===== */
+  --palette-bg: #ffffff;
+  --palette-surface: #f8f9fa;
+  --palette-border: #e5e7eb;
+  --palette-text: #1a1a1a;
+  --palette-text-dim: #6b7280;
+  --palette-primary: #7c5a96;
+  --palette-primary-light: #c5b3d3;
+  --palette-pass: #16a34a;
+  --palette-pass-bg: #f0fdf4;
+  --palette-fail: #dc2626;
+  --palette-fail-bg: #fef2f2;
+
+  /* ===== SEMANTIC ROLES ===== */
+  --color-bg: var(--palette-bg);
+  --color-surface: var(--palette-surface);
+  --color-border: var(--palette-border);
+  --color-text: var(--palette-text);
+  --color-text-dim: var(--palette-text-dim);
+  --color-primary: var(--palette-primary);
+  --color-primary-light: var(--palette-primary-light);
+  --color-pass: var(--palette-pass);
+  --color-pass-bg: var(--palette-pass-bg);
+  --color-fail: var(--palette-fail);
+  --color-fail-bg: var(--palette-fail-bg);
+
+  /* ===== TYPOGRAPHY ===== */
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* ===== SPACING ===== */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+}
+
+/* ===== BASE ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
