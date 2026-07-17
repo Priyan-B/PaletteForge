@@ -1,0 +1,56 @@
+.shape {
+  position: absolute;
+  /* border: 1px solid var(--color-border); */
+  box-sizing: border-box;
+  cursor: move;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shape-selected {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.shape-text {
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 0 6px;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.shape-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--color-primary);
+  border: 1px solid #fff;
+  border-radius: 2px;
+}
+
+.shape-handle-nw {
+  top: -5px;
+  left: -5px;
+  cursor: nwse-resize;
+}
+
+.shape-handle-ne {
+  top: -5px;
+  right: -5px;
+  cursor: nesw-resize;
+}
+
+.shape-handle-sw {
+  bottom: -5px;
+  left: -5px;
+  cursor: nesw-resize;
+}
+
+.shape-handle-se {
+  bottom: -5px;
+  right: -5px;
+  cursor: nwse-resize;
+}
