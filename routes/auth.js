@@ -26,8 +26,19 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
-router.post("/login", passport.authenticate("local"), (req, res) => {
-  res.json({ id: req.user._id.toString(), username: req.user.username });
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) return next(err);
+    if (!user) {
+      return res
+        .status(401)
+        .json({ error: info?.message || "Incorrect username or password" });
+    }
+    req.login(user, (err) => {
+      if (err) return next(err);
+      res.json({ id: user._id.toString(), username: user.username });
+    });
+  })(req, res, next);
 });
 
 router.post("/logout", (req, res, next) => {

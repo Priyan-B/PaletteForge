@@ -4,7 +4,7 @@ import {
   listReports,
   generateReport,
   deleteReport,
-} from "../../api/contrastApi";
+} from "../../../api/contrastApi";
 import "./PaletteAudit.css";
 
 function PaletteAudit() {

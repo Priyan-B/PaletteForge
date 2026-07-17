@@ -1,5 +1,5 @@
 import { useState } from "react";
-import WireframeStudio from "./components/WireframeStudio.jsx";
+import WireframeStudio from "./components/WireframeStudio/WireframeStudio.jsx";
 import AccessibilityToolkit from "./components/AccessibilityToolkit/AccessibilityToolkit.jsx";
 import "./App.css";
 

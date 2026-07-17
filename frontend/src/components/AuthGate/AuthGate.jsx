@@ -89,6 +89,8 @@ function AuthGate({ children }) {
             type="button"
             onClick={() => {
               setMode(mode === "login" ? "register" : "login");
+              setUsername("");
+              setPassword("");
               setError(null);
             }}
           >
