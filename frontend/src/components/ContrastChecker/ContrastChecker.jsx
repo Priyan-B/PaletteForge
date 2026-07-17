@@ -1,7 +1,7 @@
-import { useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { checkPair } from '../../utils/wcag';
-import './ContrastChecker.css';
+import { useState, useMemo } from "react";
+import PropTypes from "prop-types";
+import { checkPair } from "../../utils/wcag";
+import "./ContrastChecker.css";
 
 function ContrastChecker({ initialForeground, initialBackground }) {
   const [fg, setFg] = useState(initialForeground);
@@ -24,7 +24,11 @@ function ContrastChecker({ initialForeground, initialBackground }) {
         <label className="cc__field">
           <span>Foreground</span>
           <div className="cc__row">
-            <input type="color" value={fg} onChange={(e) => setFg(e.target.value)} />
+            <input
+              type="color"
+              value={fg}
+              onChange={(e) => setFg(e.target.value)}
+            />
             <input
               type="text"
               value={fg}
@@ -37,7 +41,11 @@ function ContrastChecker({ initialForeground, initialBackground }) {
         <label className="cc__field">
           <span>Background</span>
           <div className="cc__row">
-            <input type="color" value={bg} onChange={(e) => setBg(e.target.value)} />
+            <input
+              type="color"
+              value={bg}
+              onChange={(e) => setBg(e.target.value)}
+            />
             <input
               type="text"
               value={bg}
@@ -65,15 +73,16 @@ function ContrastChecker({ initialForeground, initialBackground }) {
         <div className="cc__result">
           <div className="cc__ratio">{result.ratio}:1</div>
           <div className="cc__badges">
-            <span className={`cc__badge ${result.AA ? 'pass' : 'fail'}`}>
-              AA {result.AA ? 'Pass' : 'Fail'}
+            <span className={`cc__badge ${result.AA ? "pass" : "fail"}`}>
+              AA {result.AA ? "Pass" : "Fail"}
             </span>
-            <span className={`cc__badge ${result.AAA ? 'pass' : 'fail'}`}>
-              AAA {result.AAA ? 'Pass' : 'Fail'}
+            <span className={`cc__badge ${result.AAA ? "pass" : "fail"}`}>
+              AAA {result.AAA ? "Pass" : "Fail"}
             </span>
           </div>
           <p className="cc__thresholds">
-            Needs {result.thresholds.AA}:1 for AA, {result.thresholds.AAA}:1 for AAA
+            Needs {result.thresholds.AA}:1 for AA, {result.thresholds.AAA}:1 for
+            AAA
           </p>
         </div>
       )}
@@ -87,8 +96,8 @@ ContrastChecker.propTypes = {
 };
 
 ContrastChecker.defaultProps = {
-  initialForeground: '#1A1A1A',
-  initialBackground: '#FFFFFF',
+  initialForeground: "#1A1A1A",
+  initialBackground: "#FFFFFF",
 };
 
 export default ContrastChecker;

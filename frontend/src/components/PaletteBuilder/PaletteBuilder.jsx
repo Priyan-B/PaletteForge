@@ -1,19 +1,21 @@
-import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   listPalettes,
   createPalette,
   updatePalette,
   deletePalette,
-} from '../../api/contrastApi';
-import { ROLES } from '../../utils/roles';
-import './PaletteBuilder.css';
+} from "../../api/contrastApi";
+import { ROLES } from "../../utils/roles";
+import "./PaletteBuilder.css";
 
 function PaletteBuilder({ prefillColors }) {
-  const emptyColors = ROLES.map((role) => ({ role, hex: '#000000' }));
+  const emptyColors = ROLES.map((role) => ({ role, hex: "#000000" }));
 
-  const [name, setName] = useState('');
-  const [colors, setColors] = useState(prefillColors && prefillColors.length ? prefillColors : emptyColors);
+  const [name, setName] = useState("");
+  const [colors, setColors] = useState(
+    prefillColors && prefillColors.length ? prefillColors : emptyColors
+  );
   const [saved, setSaved] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState(null);
@@ -44,12 +46,12 @@ function PaletteBuilder({ prefillColors }) {
 
   function colorFor(role) {
     const c = colors.find((x) => x.role === role);
-    return c ? c.hex : '#000000';
+    return c ? c.hex : "#000000";
   }
 
   async function handleSave() {
     setError(null);
-    const payload = { name: name || 'Untitled palette', colors };
+    const payload = { name: name || "Untitled palette", colors };
     try {
       if (editingId) await updatePalette(editingId, payload);
       else await createPalette(payload);
@@ -68,7 +70,7 @@ function PaletteBuilder({ prefillColors }) {
 
   function resetForm() {
     setEditingId(null);
-    setName('');
+    setName("");
     setColors(emptyColors);
   }
 
@@ -110,7 +112,7 @@ function PaletteBuilder({ prefillColors }) {
 
       <div className="pb__actions">
         <button type="button" onClick={handleSave}>
-          {editingId ? 'Update palette' : 'Save palette'}
+          {editingId ? "Update palette" : "Save palette"}
         </button>
         {editingId && (
           <button type="button" className="pb__ghost" onClick={resetForm}>
@@ -125,7 +127,9 @@ function PaletteBuilder({ prefillColors }) {
       {loading ? (
         <p className="pb__muted">Loading…</p>
       ) : saved.length === 0 ? (
-        <p className="pb__muted">No palettes yet. Build one above to get started.</p>
+        <p className="pb__muted">
+          No palettes yet. Build one above to get started.
+        </p>
       ) : (
         <ul className="pb__list">
           {saved.map((p) => (
@@ -141,10 +145,18 @@ function PaletteBuilder({ prefillColors }) {
                 ))}
               </div>
               <span className="pb__itemname">{p.name}</span>
-              <button type="button" className="pb__ghost" onClick={() => startEdit(p)}>
+              <button
+                type="button"
+                className="pb__ghost"
+                onClick={() => startEdit(p)}
+              >
                 Edit
               </button>
-              <button type="button" className="pb__ghost" onClick={() => handleDelete(p._id)}>
+              <button
+                type="button"
+                className="pb__ghost"
+                onClick={() => handleDelete(p._id)}
+              >
                 Delete
               </button>
             </li>
@@ -157,7 +169,10 @@ function PaletteBuilder({ prefillColors }) {
 
 PaletteBuilder.propTypes = {
   prefillColors: PropTypes.arrayOf(
-    PropTypes.shape({ role: PropTypes.string.isRequired, hex: PropTypes.string.isRequired })
+    PropTypes.shape({
+      role: PropTypes.string.isRequired,
+      hex: PropTypes.string.isRequired,
+    })
   ),
 };
 

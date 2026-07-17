@@ -1,13 +1,14 @@
 /**
- * Computes the WCAG 2.1 contrast ratio between two colors and 
+ * Computes the WCAG 2.1 contrast ratio between two colors and
  * auto fixing a failing color by nudging its lightness just enough to pass.
  */
 
 // Color Parsing
 export function hexToRgb(hex) {
-  let h = String(hex).trim().replace(/^#/, '');
+  let h = String(hex).trim().replace(/^#/, "");
   if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
-  if (!/^[0-9a-fA-F]{6}$/.test(h)) throw new Error(`Invalid hex color: "${hex}"`);
+  if (!/^[0-9a-fA-F]{6}$/.test(h))
+    throw new Error(`Invalid hex color: "${hex}"`);
   return {
     r: parseInt(h.slice(0, 2), 16),
     g: parseInt(h.slice(2, 4), 16),
@@ -17,7 +18,7 @@ export function hexToRgb(hex) {
 
 export function rgbToHex({ r, g, b }) {
   const clamp = (n) => Math.max(0, Math.min(255, Math.round(n)));
-  const toHex = (n) => clamp(n).toString(16).padStart(2, '0');
+  const toHex = (n) => clamp(n).toString(16).padStart(2, "0");
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
 }
 
@@ -44,7 +45,7 @@ export const THRESHOLDS = {
 };
 
 export function evaluate(ratio, { large = false } = {}) {
-  const size = large ? 'large' : 'normal';
+  const size = large ? "large" : "normal";
   return {
     ratio: Math.round(ratio * 100) / 100,
     AA: ratio >= THRESHOLDS.AA[size],
@@ -59,7 +60,9 @@ export function checkPair(fgHex, bgHex, opts) {
 
 // HSL Conversion
 export function rgbToHsl({ r, g, b }) {
-  r /= 255; g /= 255; b /= 255;
+  r /= 255;
+  g /= 255;
+  b /= 255;
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
   const l = (max + min) / 2;
@@ -69,9 +72,14 @@ export function rgbToHsl({ r, g, b }) {
     const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
     switch (max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      default: h = (r - g) / d + 4;
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      default:
+        h = (r - g) / d + 4;
     }
     h /= 6;
   }
@@ -79,7 +87,9 @@ export function rgbToHsl({ r, g, b }) {
 }
 
 export function hslToRgb({ h, s, l }) {
-  h /= 360; s /= 100; l /= 100;
+  h /= 360;
+  s /= 100;
+  l /= 100;
   if (s === 0) {
     const v = Math.round(l * 255);
     return { r: v, g: v, b: v };
@@ -103,9 +113,15 @@ export function hslToRgb({ h, s, l }) {
 
 // Autofix
 
-export function autoFixColor(fgHex, bgHex, { target = THRESHOLDS.AA.normal, large = false, step = 1 } = {}) {
+export function autoFixColor(
+  fgHex,
+  bgHex,
+  { target = THRESHOLDS.AA.normal, large = false, step = 1 } = {}
+) {
   const goal = large
-    ? (target === THRESHOLDS.AAA.normal ? THRESHOLDS.AAA.large : THRESHOLDS.AA.large)
+    ? target === THRESHOLDS.AAA.normal
+      ? THRESHOLDS.AAA.large
+      : THRESHOLDS.AA.large
     : target;
   const startHsl = rgbToHsl(hexToRgb(fgHex));
 
@@ -122,7 +138,7 @@ export function autoFixColor(fgHex, bgHex, { target = THRESHOLDS.AA.normal, larg
   const darker = searchDirection(-step);
   const lighter = searchDirection(step);
 
-  let best = null;
+  let best;
   if (darker && lighter) {
     best = darker.lightnessChange <= lighter.lightnessChange ? darker : lighter;
   } else {
@@ -135,7 +151,7 @@ export function autoFixColor(fgHex, bgHex, { target = THRESHOLDS.AA.normal, larg
       fixed: null,
       achievedRatio: null,
       passed: false,
-      note: 'Foreground cannot reach target against this background; try adjusting the background.',
+      note: "Foreground cannot reach target against this background; try adjusting the background.",
     };
   }
 

@@ -44,7 +44,7 @@
   color: var(--color-text-dim);
 }
 
-.pb__role input[type='color'] {
+.pb__role input[type="color"] {
   width: 48px;
   height: 48px;
   border: 1px solid var(--color-border);

@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-import { checkPair, autoFixColor } from '../../utils/wcag';
-import './AutoFix.css';
+import { useState } from "react";
+import PropTypes from "prop-types";
+import { checkPair, autoFixColor } from "../../utils/wcag";
+import "./AutoFix.css";
 
 function AutoFix({ foreground, background, target, onAccept }) {
   const [fg] = useState(foreground);
@@ -31,8 +31,10 @@ function AutoFix({ foreground, background, target, onAccept }) {
             Aa
           </div>
           <code>{fg}</code>
-          <span className={`af__ratio ${before && before.AA ? 'pass' : 'fail'}`}>
-            {before ? `${before.ratio}:1` : '—'}
+          <span
+            className={`af__ratio ${before && before.AA ? "pass" : "fail"}`}
+          >
+            {before ? `${before.ratio}:1` : "—"}
           </span>
         </div>
 
@@ -42,13 +44,18 @@ function AutoFix({ foreground, background, target, onAccept }) {
           <span className="af__label">After</span>
           <div
             className="af__swatch"
-            style={{ background: bg, color: fix && fix.fixed ? fix.fixed : 'var(--color-text-dim)' }}
+            style={{
+              background: bg,
+              color: fix && fix.fixed ? fix.fixed : "var(--color-text-dim)",
+            }}
           >
             Aa
           </div>
-          <code>{fix && fix.fixed ? fix.fixed : '—'}</code>
-          <span className={`af__ratio ${afterRatio && afterRatio.AA ? 'pass' : 'fail'}`}>
-            {afterRatio ? `${afterRatio.ratio}:1` : '—'}
+          <code>{fix && fix.fixed ? fix.fixed : "—"}</code>
+          <span
+            className={`af__ratio ${afterRatio && afterRatio.AA ? "pass" : "fail"}`}
+          >
+            {afterRatio ? `${afterRatio.ratio}:1` : "—"}
           </span>
         </div>
       </div>
@@ -60,7 +67,11 @@ function AutoFix({ foreground, background, target, onAccept }) {
           Auto-fix foreground
         </button>
         {fix && fix.fixed && (
-          <button type="button" className="af__accept" onClick={() => onAccept(fix.fixed)}>
+          <button
+            type="button"
+            className="af__accept"
+            onClick={() => onAccept(fix.fixed)}
+          >
             Accept fix
           </button>
         )}
