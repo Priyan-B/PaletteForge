@@ -11,6 +11,12 @@ import { requireAuth } from "./middleware/requireAuth.js";
 import contrastPalettesRouter from "./routes/contrastPalettes.js";
 import contrastReportsRouter from "./routes/contrastReports.js";
 
+if (!process.env.SESSION_SECRET) {
+  throw new Error(
+    "SESSION_SECRET is not set. Add it to your .env file before starting the server."
+  );
+}
+
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -26,7 +32,7 @@ app.use("/api", (req, res, next) => {
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "dev-secret-change-me",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
@@ -39,7 +45,6 @@ app.use("/api/auth", authRouter);
 
 app.use("/api", requireAuth);
 
-app.use("/api/wireframes", wireframesRouter);
 app.use("/api/contrast-palettes", contrastPalettesRouter);
 app.use("/api/contrast-reports", contrastReportsRouter);
 

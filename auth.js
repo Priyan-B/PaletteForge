@@ -25,7 +25,7 @@ export function configurePassport() {
           return done(null, false, {
             message: "Incorrect username or password",
           });
-        return done(null, user); // full doc; serializeUser reads _id off it
+        return done(null, user);
       } catch (err) {
         return done(err);
       }

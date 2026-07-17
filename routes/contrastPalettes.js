@@ -78,7 +78,7 @@ router.put("/:id", async (req, res) => {
   const errors = validatePalette(req.body);
   if (errors.length) return res.status(400).json({ errors });
 
-  const result = await getDB()
+  const updated = await getDB()
     .collection(COLLECTION)
     .findOneAndUpdate(
       { _id: new ObjectId(req.params.id), ownerId: req.user.id },
@@ -91,8 +91,8 @@ router.put("/:id", async (req, res) => {
       },
       { returnDocument: "after" }
     );
-  if (!result.value) return res.status(404).json({ error: "not found" });
-  res.json(result.value);
+  if (!updated) return res.status(404).json({ error: "not found" });
+  res.json(updated);
 });
 
 // DELETE
