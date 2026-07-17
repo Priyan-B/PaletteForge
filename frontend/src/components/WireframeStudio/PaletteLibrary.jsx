@@ -18,7 +18,7 @@ function PaletteLibrary({ refreshKey, onSelect, onEdit, onDelete }) {
 
   return (
     <div className="palette-library">
-      <h3>My Palettes</h3>
+      <h3>My Extracted Palettes</h3>
       {palettes.length === 0 && <p>No saved palettes yet.</p>}
       <ul>
         {palettes.map((palette) => (
