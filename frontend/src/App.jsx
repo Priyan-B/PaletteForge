@@ -1,6 +1,6 @@
 import { useState } from "react";
 import WireframeStudio from "./components/WireframeStudio.jsx";
-import AccessibilityToolkit from "./components/AccessibilityToolkit.jsx";
+import AccessibilityToolkit from "./components/AccessibilityToolkit/AccessibilityToolkit.jsx";
 import "./App.css";
 
 const VIEWS = {

@@ -3,6 +3,19 @@ import express from "express";
 import wireframesRouter from "./routes/wireframes.js";
 import extractedPalettesRouter from "./routes/extractedPalettes.js";
 import { connectDB } from "./db/connection.js";
+import session from "express-session";
+import passport from "passport";
+import { configurePassport } from "./auth.js";
+import authRouter from "./routes/auth.js";
+import { requireAuth } from "./middleware/requireAuth.js";
+import contrastPalettesRouter from "./routes/contrastPalettes.js";
+import contrastReportsRouter from "./routes/contrastReports.js";
+
+if (!process.env.SESSION_SECRET) {
+  throw new Error(
+    "SESSION_SECRET is not set. Add it to your .env file before starting the server."
+  );
+}
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -17,12 +30,23 @@ app.use("/api", (req, res, next) => {
   next();
 });
 
-// TODO: replace with real Passport session middleware once auth is implemented.
-// Routes should only ever read req.user.id, never a client-supplied owner id.
-app.use("/api", (req, res, next) => {
-  req.user = { id: "000000000000000000000001" };
-  next();
-});
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+configurePassport();
+
+app.use("/api/auth", authRouter);
+
+app.use("/api", requireAuth);
+
+app.use("/api/contrast-palettes", contrastPalettesRouter);
+app.use("/api/contrast-reports", contrastReportsRouter);
 
 app.use("/api/wireframes", wireframesRouter);
 app.use("/api/palettes/extracted", extractedPalettesRouter);

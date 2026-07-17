@@ -36,8 +36,12 @@
     "prettier": "^3.9.5"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "dotenv": "^16.4.7",
     "express": "^5.2.1",
-    "mongodb": "7.2"
+    "express-session": "^1.19.0",
+    "mongodb": "7.2",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
   }
 }
