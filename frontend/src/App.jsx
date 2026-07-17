@@ -38,6 +38,17 @@ function App() {
       <main className="app-main">
         <Component />
       </main>
+      <footer className="app-footer">
+        <span>PaletteForge &copy; {new Date().getFullYear()}</span>
+        <span>Aishwarya Rajmohan &amp; Priyan Baskar</span>
+        <a
+          href="https://github.com/Priyan-B/PaletteForge"
+          target="_blank"
+          rel="noreferrer"
+        >
+          GitHub
+        </a>
+      </footer>
     </div>
   );
 }
