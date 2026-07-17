@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import wireframesRouter from "./routes/wireframes.js";
+import extractedPalettesRouter from "./routes/extractedPalettes.js";
 import { connectDB } from "./db/connection.js";
 import session from "express-session";
 import passport from "passport";
@@ -43,13 +44,13 @@ app.use("/api/contrast-palettes", contrastPalettesRouter);
 app.use("/api/contrast-reports", contrastReportsRouter);
 
 app.use("/api/wireframes", wireframesRouter);
+app.use("/api/palettes/extracted", extractedPalettesRouter);
 
 app.use("/api", (req, res) => {
   res.status(404).json({ error: "Not found" });
 });
 
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   console.error(err);
   res.status(500).json({ error: "Internal server error" });
 });
