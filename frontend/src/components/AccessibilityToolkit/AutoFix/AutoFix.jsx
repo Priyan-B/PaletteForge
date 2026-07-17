@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { checkPair, autoFixColor } from "../../utils/wcag";
+import { checkPair, autoFixColor } from "../../../utils/wcag";
 import "./AutoFix.css";
 
 function AutoFix({ foreground, background, target, onAccept }) {

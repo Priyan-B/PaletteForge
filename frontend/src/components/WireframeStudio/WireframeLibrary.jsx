@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { listWireframes, deleteWireframe } from "../api/wireframes.js";
+import { listWireframes, deleteWireframe } from "../../api/wireframes.js";
 import "./WireframeLibrary.css";
 
 function WireframeLibrary({ refreshKey, onLoad, onDelete }) {

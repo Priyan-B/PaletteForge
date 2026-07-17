@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { extractPalette, loadImage } from "../utils/extractPalette.js";
+import { extractPalette, loadImage } from "../../utils/extractPalette.js";
 import "./PaletteExtractor.css";
 
 function PaletteExtractor({
@@ -36,7 +36,7 @@ function PaletteExtractor({
 
   return (
     <div className="palette-extractor">
-      <h3>Palette Builder</h3>
+      <h3>Extract Palette from Image</h3>
       <div className="palette-header-row">
         <input
           type="text"

@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import { checkPair } from "../../utils/wcag";
+import { checkPair } from "../../../utils/wcag";
 import "./ContrastChecker.css";
 
 function ContrastChecker({ initialForeground, initialBackground }) {
