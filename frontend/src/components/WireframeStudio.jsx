@@ -10,6 +10,11 @@ import { shuffleArray } from "../utils/shuffleArray.js";
 import "./WireframeStudio.css";
 
 const DEFAULT_SIZE = { width: 120, height: 80 };
+const MAX_SHUFFLE_ATTEMPTS = 20;
+
+function sameColors(a, b) {
+  return a.length === b.length && a.every((hex, index) => hex === b[index]);
+}
 
 function createShape(type) {
   return {
@@ -148,14 +153,22 @@ function WireframeStudio() {
       shapes.length === 0
     )
       return;
-    const shuffledColors = shuffleArray(
-      selectedPalette.colors.map((color) => color.hex)
-    );
+
+    const hexes = selectedPalette.colors.map((color) => color.hex);
+    const currentColors = shapes.map((shape) => shape.fillColor);
+
+    let nextColors = currentColors;
+    for (let attempt = 0; attempt < MAX_SHUFFLE_ATTEMPTS; attempt++) {
+      const shuffled = shuffleArray(hexes);
+      const candidate = shapes.map(
+        (_, index) => shuffled[index % shuffled.length]
+      );
+      nextColors = candidate;
+      if (!sameColors(candidate, currentColors)) break;
+    }
+
     setShapes((prev) =>
-      prev.map((shape, index) => ({
-        ...shape,
-        fillColor: shuffledColors[index % shuffledColors.length],
-      }))
+      prev.map((shape, index) => ({ ...shape, fillColor: nextColors[index] }))
     );
   };
 
