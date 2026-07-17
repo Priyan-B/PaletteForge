@@ -35,10 +35,12 @@ function AccessibilityToolkit({ incomingColors }) {
       <div className="atk__panel">
         {tool === "checker" && (
           <ContrastChecker
-            initialForeground={fixPair.fg}
-            initialBackground={fixPair.bg}
+            foreground={fixPair.fg}
+            background={fixPair.bg}
+            onChange={(fg, bg) => setFixPair({ fg, bg })}
           />
         )}
+
         {tool === "builder" && (
           <PaletteBuilder prefillColors={incomingColors} />
         )}
