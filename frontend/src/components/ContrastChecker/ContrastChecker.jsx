@@ -1,12 +1,13 @@
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { checkPair } from "../../utils/wcag";
 import "./ContrastChecker.css";
 
-function ContrastChecker({ initialForeground, initialBackground }) {
-  const [fg, setFg] = useState(initialForeground);
-  const [bg, setBg] = useState(initialBackground);
+function ContrastChecker({ foreground, background, onChange }) {
   const [largeText, setLargeText] = useState(false);
+
+  const fg = foreground;
+  const bg = background;
 
   const result = useMemo(() => {
     try {
@@ -27,12 +28,12 @@ function ContrastChecker({ initialForeground, initialBackground }) {
             <input
               type="color"
               value={fg}
-              onChange={(e) => setFg(e.target.value)}
+              onChange={(e) => onChange(e.target.value, bg)}
             />
             <input
               type="text"
               value={fg}
-              onChange={(e) => setFg(e.target.value)}
+              onChange={(e) => onChange(e.target.value, bg)}
               aria-label="Foreground hex"
             />
           </div>
@@ -44,12 +45,12 @@ function ContrastChecker({ initialForeground, initialBackground }) {
             <input
               type="color"
               value={bg}
-              onChange={(e) => setBg(e.target.value)}
+              onChange={(e) => onChange(fg, e.target.value)}
             />
             <input
               type="text"
               value={bg}
-              onChange={(e) => setBg(e.target.value)}
+              onChange={(e) => onChange(fg, e.target.value)}
               aria-label="Background hex"
             />
           </div>
@@ -91,13 +92,15 @@ function ContrastChecker({ initialForeground, initialBackground }) {
 }
 
 ContrastChecker.propTypes = {
-  initialForeground: PropTypes.string,
-  initialBackground: PropTypes.string,
+  foreground: PropTypes.string,
+  background: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 ContrastChecker.defaultProps = {
-  initialForeground: "#1A1A1A",
-  initialBackground: "#FFFFFF",
+  foreground: "#1A1A1A",
+  background: "#FFFFFF",
+  onChange: () => {},
 };
 
 export default ContrastChecker;
