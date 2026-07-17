@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { listPalettes, deletePalette } from "../api/palettes.js";
+import { listPalettes, deletePalette } from "../../api/palettes.js";
 import "./PaletteLibrary.css";
 
 function PaletteLibrary({ refreshKey, onSelect, onEdit, onDelete }) {

@@ -4,9 +4,9 @@ import WireframeLibrary from "./WireframeLibrary.jsx";
 import PaletteExtractor from "./PaletteExtractor.jsx";
 import PaletteLibrary from "./PaletteLibrary.jsx";
 import PaletteApplyPanel from "./PaletteApplyPanel.jsx";
-import { createWireframe, updateWireframe } from "../api/wireframes.js";
-import { createPalette, updatePalette } from "../api/palettes.js";
-import { shuffleArray } from "../utils/shuffleArray.js";
+import { createWireframe, updateWireframe } from "../../api/wireframes.js";
+import { createPalette, updatePalette } from "../../api/palettes.js";
+import { shuffleArray } from "../../utils/shuffleArray.js";
 import "./WireframeStudio.css";
 
 const DEFAULT_SIZE = { width: 120, height: 80 };
