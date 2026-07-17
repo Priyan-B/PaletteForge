@@ -1,15 +1,24 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import WireframeBoard from "./WireframeBoard.jsx";
 import WireframeLibrary from "./WireframeLibrary.jsx";
 import PaletteExtractor from "./PaletteExtractor.jsx";
 import PaletteLibrary from "./PaletteLibrary.jsx";
 import PaletteApplyPanel from "./PaletteApplyPanel.jsx";
-import { createWireframe, updateWireframe } from "../api/wireframes.js";
-import { createPalette, updatePalette } from "../api/palettes.js";
-import { shuffleArray } from "../utils/shuffleArray.js";
+import { createWireframe, updateWireframe } from "../../api/wireframes.js";
+import { createPalette, updatePalette } from "../../api/palettes.js";
+import { shuffleArray } from "../../utils/shuffleArray.js";
+import { ROLES } from "../../utils/roles.js";
 import "./WireframeStudio.css";
 
 const DEFAULT_SIZE = { width: 120, height: 80 };
+
+function toRoleColors(colors) {
+  return ROLES.map((role, index) => ({
+    role,
+    hex: colors[index] ? colors[index].hex : "#000000",
+  }));
+}
 
 function createShape(type) {
   return {
@@ -25,7 +34,7 @@ function createShape(type) {
   };
 }
 
-function WireframeStudio() {
+function WireframeStudio({ onSendToAccessibility }) {
   const [shapes, setShapes] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [currentId, setCurrentId] = useState(null);
@@ -271,12 +280,23 @@ function WireframeStudio() {
             onNew={handlePaletteNew}
           />
           {selectedPalette && (
-            <PaletteApplyPanel
-              palette={selectedPalette}
-              canMatch={!!selectedShape}
-              onMatch={handleManualMatch}
-              onShuffle={handleShuffle}
-            />
+            <>
+              <PaletteApplyPanel
+                palette={selectedPalette}
+                canMatch={!!selectedShape}
+                onMatch={handleManualMatch}
+                onShuffle={handleShuffle}
+              />
+              <button
+                type="button"
+                className="wireframe-send-to-accessibility"
+                onClick={() =>
+                  onSendToAccessibility(toRoleColors(selectedPalette.colors))
+                }
+              >
+                Check accessibility
+              </button>
+            </>
           )}
           <PaletteLibrary
             refreshKey={paletteRefreshKey}
@@ -289,5 +309,9 @@ function WireframeStudio() {
     </div>
   );
 }
+
+WireframeStudio.propTypes = {
+  onSendToAccessibility: PropTypes.func.isRequired,
+};
 
 export default WireframeStudio;

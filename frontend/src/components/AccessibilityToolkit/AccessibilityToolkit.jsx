@@ -1,9 +1,9 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import ContrastChecker from "../ContrastChecker/ContrastChecker.jsx";
-import PaletteBuilder from "../PaletteBuilder/PaletteBuilder.jsx";
-import PaletteAudit from "../PaletteAudit/PaletteAudit.jsx";
-import AutoFix from "../AutoFix/AutoFix.jsx";
+import ContrastChecker from "./ContrastChecker/ContrastChecker.jsx";
+import PaletteBuilder from "./PaletteBuilder/PaletteBuilder.jsx";
+import PaletteAudit from "./PaletteAudit/PaletteAudit.jsx";
+import AutoFix from "./AutoFix/AutoFix.jsx";
 import "./AccessibilityToolkit.css";
 
 const TOOLS = {
@@ -35,10 +35,12 @@ function AccessibilityToolkit({ incomingColors }) {
       <div className="atk__panel">
         {tool === "checker" && (
           <ContrastChecker
-            initialForeground={fixPair.fg}
-            initialBackground={fixPair.bg}
+            foreground={fixPair.fg}
+            background={fixPair.bg}
+            onChange={(fg, bg) => setFixPair({ fg, bg })}
           />
         )}
+
         {tool === "builder" && (
           <PaletteBuilder prefillColors={incomingColors} />
         )}

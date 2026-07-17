@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { listPalettes, deletePalette } from "../api/palettes.js";
+import { listPalettes, deletePalette } from "../../api/palettes.js";
 import "./PaletteLibrary.css";
 
 function PaletteLibrary({ refreshKey, onSelect, onEdit, onDelete }) {
@@ -18,7 +18,7 @@ function PaletteLibrary({ refreshKey, onSelect, onEdit, onDelete }) {
 
   return (
     <div className="palette-library">
-      <h3>My Palettes</h3>
+      <h3>My Extracted Palettes</h3>
       {palettes.length === 0 && <p>No saved palettes yet.</p>}
       <ul>
         {palettes.map((palette) => (

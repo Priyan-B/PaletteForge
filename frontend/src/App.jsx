@@ -1,16 +1,21 @@
 import { useState } from "react";
-import WireframeStudio from "./components/WireframeStudio.jsx";
+import WireframeStudio from "./components/WireframeStudio/WireframeStudio.jsx";
 import AccessibilityToolkit from "./components/AccessibilityToolkit/AccessibilityToolkit.jsx";
 import "./App.css";
 
 const VIEWS = {
-  wireframes: { label: "Wireframe Studio", Component: WireframeStudio },
-  contrast: { label: "Accessibility Toolkit", Component: AccessibilityToolkit },
+  wireframes: { label: "Wireframe Studio" },
+  contrast: { label: "Accessibility Toolkit" },
 };
 
 function App() {
   const [currentView, setCurrentView] = useState("wireframes");
-  const { Component } = VIEWS[currentView];
+  const [handoffColors, setHandoffColors] = useState(null);
+
+  const handleSendToAccessibility = (colors) => {
+    setHandoffColors(colors);
+    setCurrentView("contrast");
+  };
 
   return (
     <div className="app">
@@ -36,7 +41,11 @@ function App() {
         color picking may not work well on mobile.
       </p>
       <main className="app-main">
-        <Component />
+        {currentView === "wireframes" ? (
+          <WireframeStudio onSendToAccessibility={handleSendToAccessibility} />
+        ) : (
+          <AccessibilityToolkit incomingColors={handoffColors} />
+        )}
       </main>
       <footer className="app-footer">
         <span>PaletteForge &copy; {new Date().getFullYear()}</span>

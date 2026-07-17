@@ -5,8 +5,8 @@ import {
   createPalette,
   updatePalette,
   deletePalette,
-} from "../../api/contrastApi";
-import { ROLES } from "../../utils/roles";
+} from "../../../api/contrastApi";
+import { ROLES } from "../../../utils/roles";
 import "./PaletteBuilder.css";
 
 function PaletteBuilder({ prefillColors }) {

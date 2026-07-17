@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { checkPair, autoFixColor } from "../../utils/wcag";
+import { checkPair, autoFixColor } from "../../../utils/wcag";
 import "./AutoFix.css";
 
 function AutoFix({ foreground, background, target, onAccept }) {
-  const [fg] = useState(foreground);
-  const [bg] = useState(background);
   const [fix, setFix] = useState(null);
+
+  const fg = foreground;
+  const bg = background;
+
+  useEffect(() => {
+    setFix(null);
+  }, [foreground, background]);
 
   const before = safeCheck(fg, bg);
 
