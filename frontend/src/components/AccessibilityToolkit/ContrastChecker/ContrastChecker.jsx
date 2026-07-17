@@ -67,7 +67,7 @@ function ContrastChecker({ foreground, background, onChange }) {
       </label>
 
       <div className="cc__preview" style={{ background: bg, color: fg }}>
-        The quick brown fox jumps over the lazy dog
+        Web Development under Prof. John Alexis Guerra Gómez is Fun
       </div>
 
       {result && (
