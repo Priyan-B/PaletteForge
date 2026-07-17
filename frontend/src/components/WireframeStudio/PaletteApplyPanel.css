@@ -32,3 +32,11 @@
 .palette-apply-swatch:hover:not(:disabled) {
   outline: 2px solid var(--color-primary);
 }
+
+button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+}

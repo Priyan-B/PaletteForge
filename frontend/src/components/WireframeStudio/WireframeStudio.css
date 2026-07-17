@@ -19,6 +19,16 @@
   border-radius: var(--radius-md);
 }
 
+.wireframe-send-to-accessibility {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
 .wireframe-shape-controls {
   gap: 1.5rem;
 }
