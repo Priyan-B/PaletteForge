@@ -19,6 +19,9 @@ if (!process.env.SESSION_SECRET) {
 
 const PORT = process.env.PORT || 3000;
 const app = express();
+// used for spa catch all routing
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -61,6 +64,11 @@ app.use((err, req, res, _next) => {
 });
 
 await connectDB();
+
+// should add a SPA catch-all route that will direct the user to a default page if a route path is requested that does not exisit
+app.get("*splat", function (req, res) {
+  res.sendFile("index.html", { root: join(__dirname, "./frontend/dist") });
+});
 
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
