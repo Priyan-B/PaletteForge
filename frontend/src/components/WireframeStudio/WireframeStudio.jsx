@@ -34,7 +34,9 @@ function createShape(type) {
   };
 }
 
-function WireframeStudio({ onSendToAccessibility }) {
+// so here if you did pass the handle methods as props down to the child, you would pass all of them into this component as parameters and have the states
+// be tracked in the parent rather than this component
+function WireframeStudio({ onSendToAccessibility, /* onNew, onSave, onLoad, onLibraryDelete, onPaletteNew, onPaletteSave, etc */ }) {
   const [shapes, setShapes] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [currentId, setCurrentId] = useState(null);
@@ -67,6 +69,9 @@ function WireframeStudio({ onSendToAccessibility }) {
     }
   };
 
+  //for simplicity, the handle methods you have defined below could have been inherited by the parents if you defined them within a parent component and passed them down as props
+  // then this component would remain "dumb" in the sense that it is given behavior to perform. This allows for components to focus on one thing instead of various behaviors like this 
+  // component does
   const handleNew = () => {
     setShapes([]);
     setSelectedId(null);
