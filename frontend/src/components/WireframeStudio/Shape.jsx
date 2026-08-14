@@ -1,5 +1,8 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 import "./Shape.css";
+
+const DEFAULT_TEXT = "Double-click to edit";
 
 const MIN_SIZE = 20;
 const CORNERS = ["nw", "ne", "sw", "se"];
@@ -31,6 +34,25 @@ function trackDrag(onMove, onEnd) {
 }
 
 function Shape({ shape, isSelected, onSelect, onChange }) {
+  const [isEditingText, setIsEditingText] = useState(false);
+  const [draftText, setDraftText] = useState(shape.text ?? DEFAULT_TEXT);
+
+  const startEditingText = (event) => {
+    event.stopPropagation();
+    setDraftText(shape.text ?? DEFAULT_TEXT);
+    setIsEditingText(true);
+  };
+
+  const commitText = () => {
+    setIsEditingText(false);
+    onChange(shape.id, { text: draftText });
+  };
+
+  const cancelEditingText = () => {
+    setDraftText(shape.text ?? DEFAULT_TEXT);
+    setIsEditingText(false);
+  };
+
   const startMove = (event) => {
     event.stopPropagation();
     onSelect(shape.id);
@@ -85,9 +107,29 @@ function Shape({ shape, isSelected, onSelect, onChange }) {
       style={style}
       onMouseDown={startMove}
     >
-      {shape.showText && (
-        <span className="shape-text" style={{ color: shape.textColor }}>
-          Lorem ipsum dolor sit amet
+      {shape.showText && isEditingText && (
+        <input
+          type="text"
+          className="shape-text-input"
+          style={{ color: shape.textColor }}
+          value={draftText}
+          autoFocus
+          onMouseDown={(event) => event.stopPropagation()}
+          onChange={(event) => setDraftText(event.target.value)}
+          onBlur={commitText}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") commitText();
+            if (event.key === "Escape") cancelEditingText();
+          }}
+        />
+      )}
+      {shape.showText && !isEditingText && (
+        <span
+          className="shape-text"
+          style={{ color: shape.textColor }}
+          onDoubleClick={startEditingText}
+        >
+          {shape.text || DEFAULT_TEXT}
         </span>
       )}
       {isSelected &&
@@ -113,6 +155,7 @@ Shape.propTypes = {
     fillColor: PropTypes.string.isRequired,
     showText: PropTypes.bool,
     textColor: PropTypes.string,
+    text: PropTypes.string,
   }).isRequired,
   isSelected: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired,

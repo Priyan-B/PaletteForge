@@ -6,6 +6,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
 }
 
 .shape-selected {
@@ -18,8 +21,19 @@
   text-align: center;
   padding: 0 6px;
   overflow: hidden;
-  pointer-events: none;
   user-select: none;
+}
+
+.shape-text-input {
+  font-size: 0.75rem;
+  font-family: inherit;
+  text-align: center;
+  width: 90%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed currentColor;
+  outline: none;
+  padding: 0 6px;
 }
 
 .shape-handle {

@@ -31,6 +31,7 @@ function createShape(type) {
     fillColor: "#ffffff",
     showText: false,
     textColor: "#000000",
+    text: "Double-click to edit",
   };
 }
 
