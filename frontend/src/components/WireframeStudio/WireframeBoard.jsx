@@ -19,6 +19,11 @@ function WireframeBoard({
           }
         }}
       >
+        {shapes.length === 0 && (
+          <p className="wireframe-board-hint">
+            Add a rectangle or circle to start sketching a layout
+          </p>
+        )}
         {shapes.map((shape) => (
           <Shape
             key={shape.id}

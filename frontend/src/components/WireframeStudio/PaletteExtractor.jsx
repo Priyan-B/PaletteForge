@@ -37,6 +37,10 @@ function PaletteExtractor({
   return (
     <div className="palette-extractor">
       <h3>Extract Palette from Image</h3>
+      <p className="palette-extractor-hint">
+        Upload a photo and we&apos;ll automatically pull out its most common
+        colors
+      </p>
       <div className="palette-header-row">
         <input
           type="text"
@@ -57,9 +61,6 @@ function PaletteExtractor({
                   handleColorChange(index, event.target.value)
                 }
               />
-              {typeof color.prevalence === "number" && (
-                <span>{color.prevalence}%</span>
-              )}
               <button
                 type="button"
                 className="palette-swatch-remove"
@@ -100,7 +101,6 @@ PaletteExtractor.propTypes = {
   colors: PropTypes.arrayOf(
     PropTypes.shape({
       hex: PropTypes.string.isRequired,
-      prevalence: PropTypes.number,
     })
   ).isRequired,
   sourceImageName: PropTypes.string.isRequired,

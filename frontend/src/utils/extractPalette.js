@@ -22,7 +22,6 @@ export function extractPalette(image, topN = 5) {
   const { data } = ctx.getImageData(0, 0, SAMPLE_SIZE, SAMPLE_SIZE);
 
   const buckets = new Map();
-  let totalPixels = 0;
 
   for (let i = 0; i < data.length; i += 4) {
     if (data[i + 3] < ALPHA_THRESHOLD) continue;
@@ -33,18 +32,14 @@ export function extractPalette(image, topN = 5) {
     const key = `${r},${g},${b}`;
 
     buckets.set(key, (buckets.get(key) || 0) + 1);
-    totalPixels += 1;
   }
 
   return [...buckets.entries()]
     .sort((a, b) => b[1] - a[1])
     .slice(0, topN)
-    .map(([key, count]) => {
+    .map(([key]) => {
       const [r, g, b] = key.split(",").map(Number);
-      return {
-        hex: rgbToHex(r, g, b),
-        prevalence: Math.round((count / totalPixels) * 100),
-      };
+      return { hex: rgbToHex(r, g, b) };
     });
 }
 

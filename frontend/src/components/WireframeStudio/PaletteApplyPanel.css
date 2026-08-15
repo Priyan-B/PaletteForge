@@ -40,3 +40,9 @@ button {
   background: transparent;
   cursor: pointer;
 }
+
+.palette-apply-shuffle-hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+}

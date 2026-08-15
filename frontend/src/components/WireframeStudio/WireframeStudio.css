@@ -19,6 +19,12 @@
   border-radius: var(--radius-md);
 }
 
+.wireframe-accessibility-hint {
+  margin: 0.75rem 0 0.4rem;
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+}
+
 .wireframe-send-to-accessibility {
   display: flex;
   align-items: center;

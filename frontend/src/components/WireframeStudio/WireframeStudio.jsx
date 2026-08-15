@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import WireframeBoard from "./WireframeBoard.jsx";
 import WireframeLibrary from "./WireframeLibrary.jsx";
 import PaletteExtractor from "./PaletteExtractor.jsx";
 import PaletteLibrary from "./PaletteLibrary.jsx";
 import PaletteApplyPanel from "./PaletteApplyPanel.jsx";
+import Toast from "./Toast.jsx";
 import { createWireframe, updateWireframe } from "../../api/wireframes.js";
 import { createPalette, updatePalette } from "../../api/palettes.js";
 import { shuffleArray } from "../../utils/shuffleArray.js";
@@ -49,6 +50,15 @@ function WireframeStudio({ onSendToAccessibility }) {
   const [paletteCurrentId, setPaletteCurrentId] = useState(null);
   const [paletteSourceImageName, setPaletteSourceImageName] = useState("");
 
+  const [toastMessage, setToastMessage] = useState(null);
+  const toastTimeoutRef = useRef(null);
+
+  const showToast = (message) => {
+    setToastMessage(message);
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+    toastTimeoutRef.current = setTimeout(() => setToastMessage(null), 2500);
+  };
+
   const addShape = (type) => {
     const shape = createShape(type);
     setShapes((prev) => [...prev, shape]);
@@ -83,6 +93,7 @@ function WireframeStudio({ onSendToAccessibility }) {
       setCurrentId(created._id);
     }
     setRefreshKey((key) => key + 1);
+    showToast("Wireframe saved");
   };
 
   const handleLoad = (wireframe) => {
@@ -108,7 +119,7 @@ function WireframeStudio({ onSendToAccessibility }) {
   const handlePaletteSave = async () => {
     const data = {
       name: paletteName,
-      colors: paletteColors,
+      colors: paletteColors.map(({ hex }) => ({ hex })),
       sourceImageName: paletteSourceImageName,
     };
     let saved;
@@ -122,10 +133,11 @@ function WireframeStudio({ onSendToAccessibility }) {
       setSelectedPalette(saved);
     }
     setPaletteRefreshKey((key) => key + 1);
+    showToast("Palette saved");
   };
 
   const handlePaletteEdit = (palette) => {
-    setPaletteColors(palette.colors);
+    setPaletteColors(palette.colors.map(({ hex }) => ({ hex })));
     setPaletteName(palette.name);
     setPaletteCurrentId(palette._id);
     setPaletteSourceImageName(palette.sourceImageName || "");
@@ -288,6 +300,10 @@ function WireframeStudio({ onSendToAccessibility }) {
                 onMatch={handleManualMatch}
                 onShuffle={handleShuffle}
               />
+              <p className="wireframe-accessibility-hint">
+                Send this palette to the Accessibility Toolkit to check its
+                contrast
+              </p>
               <button
                 type="button"
                 className="wireframe-send-to-accessibility"
@@ -307,6 +323,7 @@ function WireframeStudio({ onSendToAccessibility }) {
           />
         </div>
       </div>
+      <Toast message={toastMessage} />
     </div>
   );
 }

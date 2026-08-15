@@ -9,6 +9,7 @@ router.get("/", async (req, res) => {
   const wireframes = await getDB()
     .collection(COLLECTION)
     .find({ ownerId: new ObjectId(req.user.id) })
+    .sort({ updatedAt: -1 })
     .toArray();
   res.json(wireframes);
 });

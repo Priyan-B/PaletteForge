@@ -20,7 +20,13 @@ function App() {
   return (
     <div className="app">
       <nav className="app-nav">
-        <h1 className="app-title">PaletteForge</h1>
+        <div className="app-brand">
+          <h1 className="app-title">PaletteForge</h1>
+          <p className="app-tagline">
+            Sketch layouts, extract colors from images, and check them for
+            accessibility
+          </p>
+        </div>
         <div className="app-nav-tabs">
           {Object.entries(VIEWS).map(([key, { label }]) => (
             <button

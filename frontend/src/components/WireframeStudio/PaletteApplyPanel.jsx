@@ -25,6 +25,9 @@ function PaletteApplyPanel({ palette, canMatch, onMatch, onShuffle }) {
       <button type="button" onClick={onShuffle}>
         Shuffle
       </button>
+      <p className="palette-apply-shuffle-hint">
+        Randomly reassigns these colors across your shapes
+      </p>
     </div>
   );
 }
