@@ -7,9 +7,15 @@
 }
 
 .pa__title {
-  margin: 0 0 16px;
+  margin: 0 0 6px;
   font-size: 1.1rem;
   color: var(--color-text);
+}
+
+.pa__intro {
+  margin: 0 0 16px;
+  font-size: 0.82rem;
+  color: var(--color-text-dim);
 }
 
 .pa__subtitle {
@@ -21,10 +27,23 @@
 .pa__controls {
   display: flex;
   gap: 10px;
+  align-items: flex-end;
+}
+
+.pa__field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pa__label {
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
 }
 
 .pa__controls select {
-  flex: 1;
+  width: 100%;
   padding: 9px 12px;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
@@ -36,7 +55,7 @@
 .pa__controls button {
   padding: 9px 16px;
   border-radius: var(--radius-md);
-  border: none;
+  border: 1px solid var(--color-primary);
   background: var(--color-primary);
   color: #fff;
   font-weight: 600;
@@ -44,9 +63,15 @@
   font-family: var(--font-body);
 }
 
-.pa__controls button:disabled {
-  opacity: 0.4;
+.pa__controls button[aria-disabled="true"] {
+  opacity: 0.5;
   cursor: not-allowed;
+}
+
+.pa__hint {
+  margin: 8px 0 0;
+  font-size: 0.78rem;
+  color: var(--color-text-dim);
 }
 
 .pa__summary {
@@ -59,6 +84,13 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 0.85rem;
+}
+
+.pa__caption {
+  text-align: left;
+  font-size: 0.78rem;
+  color: var(--color-text-dim);
+  padding-bottom: 8px;
 }
 
 .pa__table th,
@@ -97,6 +129,7 @@
 .pa__error {
   color: var(--color-fail);
   font-size: 0.85rem;
+  margin: 12px 0 0;
 }
 
 .pa__muted {
@@ -143,4 +176,30 @@
   font-size: 0.8rem;
   cursor: pointer;
   font-family: var(--font-body);
+}
+
+.pa__ghost.danger:hover {
+  background: var(--color-fail-bg);
+  border-color: var(--color-fail);
+}
+
+/* Visually hidden text that keeps repeated buttons distinguishable
+   for screen reader users. */
+.pa__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 480px) {
+  .pa__controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
