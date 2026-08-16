@@ -67,16 +67,13 @@ Wireframe Studio — shape board with an applied palette:
 ![Wireframe Studio](docs/wireframe-studio.png)
 
 Accessibility Toolkit — Contrast Checker:
-![Contrast Checker](docs/contrast-checker.png)
-
-Accessibility Toolkit — Auto-Fix before/after:
-![Auto-Fix](docs/auto-fix.png)
+![Contrast Checker](docs/Updated%20Contrast%20Checker%20along%20with%20Auto-Fix.png)
 
 Accessibility Toolkit — Palette Builder:
-![Palette Builder](docs/palette-builder.png)
+![Palette Builder](docs/Updated%20Palette%20Builder.png)
 
 Accessibility Toolkit — Audit & Report:
-![Audit & Report](docs/audit-report.png)
+![Audit & Report](docs/Updated%20Audit%20And%20Report.png)
 
 ---
 
