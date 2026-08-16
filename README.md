@@ -139,7 +139,9 @@ PaletteForge is a single responsive codebase, so the same accessibility support 
 - All page content lives inside a semantic landmark (`<nav>`, `<main>`, `<footer>`) — including account info and the small-screen notice — so landmark-based navigation works everywhere.
 - The layout reflows instead of requiring horizontal scrolling at narrow widths, and pinch-to-zoom is never disabled, so low-vision users can zoom in on any device.
 - Touch targets meet the WCAG 2.5.8 minimum size (24×24px), and motion respects the OS-level `prefers-reduced-motion` setting — animations like the save-confirmation toast are skipped for users who've turned that on.
-- Verified with an automated [axe-core](https://github.com/dequelabs/axe-core) audit at both desktop and mobile (375px) viewport widths: zero violations.
+- Verified with an automated [axe-core](https://github.com/dequelabs/axe-core) audit at both desktop and mobile (375px) viewport widths: zero violations, with one known and justified exception (below).
+
+**Known exception — Contrast Checker preview swatches:** the live preview box and the Auto-Fix before/after swatches intentionally render whatever color pair is currently selected, including failing ones — that's the point of the tool, showing what a bad pairing looks like before it's fixed. axe-core flags these as `color-contrast` violations. They're marked `aria-hidden="true"` so screen readers skip them, since the real accessible content is the contrast ratio and AA/AAA badges displayed next to them, not the swatch itself. `aria-hidden` doesn't (and can't) suppress this specific warning, though — it only removes an element from the screen-reader tree, while WCAG 1.4.3 contrast is a visual criterion about what a low-vision sighted user sees on screen. This is a deliberate tradeoff inherent to the feature, not an oversight.
 
 ---
 
