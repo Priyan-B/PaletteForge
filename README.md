@@ -6,9 +6,9 @@ A full-stack design tool that pairs a wireframe board with an accessibility tool
 
 ## Authors
 
-**Aishwarya Rajmohan** [LinkedIn](https://linkedin.com/in/aishwaryamohan1698) · [GitHub](https://github.com/aish6498-hub) — Wireframe Studio: shape board, drag/resize/recolor, personal wireframe + palette libraries, image-based palette extraction, apply/shuffle, and the Accessibility Toolkit handoff
+**Aishwarya Rajmohan** [LinkedIn](https://linkedin.com/in/aishwaryamohan1698) · [GitHub](https://github.com/aish6498-hub) — Wireframe Studio
 
-**Priyan Baskar** [LinkedIn](https://www.linkedin.com/in/priyan-baskar-a1263227a/) · [GitHub](https://github.com/priyan-b) — Accessibility Toolkit: contrast checker, role-based palette builder, audit & report, auto-fix, and authentication (Passport local strategy, sessions)
+**Priyan Baskar** [LinkedIn](https://www.linkedin.com/in/priyan-baskar-a1263227a/) · [GitHub](https://github.com/priyan-b) — Accessibility Toolkit
 
 ---
 
@@ -29,24 +29,18 @@ The app is deployed at:
 
 Most design tools separate "make it look right" from "make it accessible" — you build a mockup, then someone else runs an accessibility pass on it later, if at all. PaletteForge keeps both in the same place.
 
-The **Wireframe Studio** side is a lightweight layout tool: drop rectangles and circles onto a board, drag and resize them, recolor them by hand, or pull a palette straight out of an uploaded image (via canvas-based color extraction — no external API). Palettes and wireframes both save to a personal library per account, and a Shuffle feature randomly reassigns an applied palette across your shapes without ever repeating the same combination twice in a row.
+The **Wireframe Studio** side is a lightweight layout tool: drop rectangles and circles onto a board, drag, resize, and recolor them, or pull a palette straight out of an uploaded image via client-side color extraction (no external API). Wireframes and palettes both save to a personal library per account.
 
-The **Accessibility Toolkit** side takes that same color thinking and checks it against WCAG 2.1 contrast math: a live contrast checker with pass/fail badges, a role-based palette builder (background/primary/accent/text/border), a batch audit that scores a saved palette across multiple foreground/background pairings, and an auto-fix tool that nudges a failing color's lightness just enough to pass — without changing its hue.
-
-The bridge between the two: a **"Check accessibility"** button in Wireframe Studio takes whatever palette you've applied to your shapes and hands it straight to the Palette Builder, pre-filled, so you can audit it without re-entering a single hex code.
+The **Accessibility Toolkit** side checks that same color thinking against WCAG 2.1: a live contrast checker, a role-based palette builder, a batch audit across multiple color pairings, and an auto-fix tool that nudges a failing color into passing.
 
 ### Features
 
 _Aishwarya Rajmohan — Wireframe Studio_
 
-- **Shape board** — add rectangles/circles, drag to reposition, resize from any corner, select and delete
-- **Manual recolor** — per-shape fill color picker, optional text label with its own color
-- **Wireframe library** — save, load, and delete named wireframes tied to your account
-- **Image palette extraction** — upload an image, get a color palette pulled from it via client-side canvas quantization (no external API)
-- **Palette library** — save, edit, and delete extracted palettes independently of any wireframe
-- **Apply + Shuffle** — apply a saved palette to your shapes; Shuffle randomly reassigns colors and is guaranteed not to repeat the previous combination
-- **Manual color matching** — click a palette swatch to apply it directly to the currently selected shape
-- **Accessibility handoff** — one click sends the applied palette's colors into the Accessibility Toolkit's Palette Builder, pre-filled by role
+- **Shape board** — add rectangles/circles, drag, resize, and recolor with keyboard support
+- **Image palette extraction** — pull a color palette from an uploaded image via client-side canvas quantization (no external API)
+- **Wireframe and palette libraries** — save, load, edit, and delete, tied to your account
+- **Apply, Shuffle, and manual matching** — apply a saved palette to your shapes, shuffle it (won't repeat the immediately previous assignment), or click a swatch to recolor one shape directly
 
 _Priyan Baskar — Accessibility Toolkit_
 
@@ -58,7 +52,16 @@ _Priyan Baskar — Accessibility Toolkit_
 
 ---
 
+## From Design to Accessibility
+
+The **"Check accessibility"** button in Wireframe Studio is the bridge between the two halves: it takes whatever palette you've applied to your shapes and hands it straight to the Accessibility Toolkit's Palette Builder, pre-filled by role. You can move from visual exploration to accessibility validation without re-entering a single hex code.
+
+---
+
 ## Screenshot
+
+Login page:
+![Login](docs/login.png)
 
 Wireframe Studio — shape board with an applied palette:
 ![Wireframe Studio](docs/wireframe-studio.png)
@@ -88,6 +91,26 @@ PaletteForge is a single-page app with no client-side router — navigation betw
 
 ---
 
+## How to Use
+
+**Wireframe Studio**
+
+1. Sign up or log in.
+2. Add and manipulate shapes on the board (drag, resize, recolor).
+3. Create a palette manually or extract one from an uploaded image.
+4. Apply the palette to your shapes, or shuffle the assignments.
+5. Save the wireframe and palette to your library.
+6. Select "Check accessibility" to send the palette to the Accessibility Toolkit.
+
+**Accessibility Toolkit**
+
+1. Use the Contrast Checker to test any two colors against WCAG AA/AAA thresholds.
+2. Build a named palette by assigning colors to five UI roles (background, primary, accent, text, border) in Palette Builder.
+3. Run Audit & Report on a saved palette to check every role pairing at once and save the report.
+4. Use Auto-Fix to automatically adjust a failing color's lightness until it passes — without changing its hue.
+
+---
+
 ## Accessibility
 
 **Keyboard support — Wireframe Studio shape board:**
@@ -114,7 +137,7 @@ An in-app "Keyboard shortcuts" reference is available next to the wireframe tool
 
 PaletteForge is a single responsive codebase, so the same accessibility support applies whether it's opened on a desktop browser, a tablet, or a phone — there's no separate "mobile version" with different guarantees.
 
-- Every input, button, checkbox, and color picker has an accessible name (via a visible label or `aria-label`), so screen readers — VoiceOver on iOS, TalkBack on Android, NVDA/JAWS on desktop — announce every control correctly no matter the device.
+- Every input, button, checkbox, and color picker has an accessible name, via a visible label or `aria-label` — verified with automated accessibility testing (axe-core), which checks the same accessible-name/role semantics screen readers like VoiceOver and TalkBack rely on.
 - Headings follow one correct hierarchy (`h1 → h2 → h3`) throughout both views, so screen reader users can jump by heading level on any screen size.
 - All page content lives inside a semantic landmark (`<nav>`, `<main>`, `<footer>`) — including account info and the small-screen notice — so landmark-based navigation works everywhere.
 - The layout reflows instead of requiring horizontal scrolling at narrow widths, and pinch-to-zoom is never disabled, so low-vision users can zoom in on any device.

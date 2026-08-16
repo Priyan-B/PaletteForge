@@ -278,25 +278,32 @@ function WireframeStudio({ onSendToAccessibility }) {
             ⌨ Keyboard shortcuts
           </button>
           {showShortcuts && (
-            <ul className="wireframe-shortcuts-list">
-              <li>
-                <kbd>Tab</kbd> — move focus to the next shape (also selects it)
-              </li>
-              <li>
-                <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> — move the
-                focused shape
-              </li>
-              <li>
-                <kbd>Shift</kbd> + arrow keys — resize the focused shape
-              </li>
-              <li>
-                <kbd>Escape</kbd> — deselect the focused shape
-              </li>
-              <li>
-                Tab to &quot;Delete Shape&quot;, then <kbd>Enter</kbd> — delete
-                the focused shape
-              </li>
-            </ul>
+            <div className="wireframe-shortcuts-list">
+              <p className="wireframe-shortcuts-note">
+                Works with any keyboard, including a Bluetooth or external
+                keyboard connected to a phone or tablet.
+              </p>
+              <ul>
+                <li>
+                  <kbd>Tab</kbd> — move focus to the next shape (also selects
+                  it)
+                </li>
+                <li>
+                  <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> — move the
+                  focused shape
+                </li>
+                <li>
+                  <kbd>Shift</kbd> + arrow keys — resize the focused shape
+                </li>
+                <li>
+                  <kbd>Escape</kbd> — deselect the focused shape
+                </li>
+                <li>
+                  Tab to &quot;Delete Shape&quot;, then <kbd>Enter</kbd> —
+                  delete the focused shape
+                </li>
+              </ul>
+            </div>
           )}
         </div>
       </div>
@@ -334,10 +341,6 @@ function WireframeStudio({ onSendToAccessibility }) {
                 onMatch={handleManualMatch}
                 onShuffle={handleShuffle}
               />
-              <p className="wireframe-accessibility-hint">
-                Send this palette to the Accessibility Toolkit to check its
-                contrast
-              </p>
               <button
                 type="button"
                 className="wireframe-send-to-accessibility"
@@ -345,7 +348,7 @@ function WireframeStudio({ onSendToAccessibility }) {
                   onSendToAccessibility(toRoleColors(selectedPalette.colors))
                 }
               >
-                Check accessibility
+                Send palette to Accessibility Toolkit
               </button>
             </>
           )}
