@@ -42,7 +42,7 @@ button {
 }
 
 .palette-apply-shuffle-hint {
-  margin: 0.4rem 0 0;
+  margin: 0 0 0.4rem;
   font-size: 0.8rem;
   color: var(--color-text-dim);
 }
