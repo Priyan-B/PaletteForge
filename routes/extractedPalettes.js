@@ -9,6 +9,7 @@ router.get("/", async (req, res) => {
   const palettes = await getDB()
     .collection(COLLECTION)
     .find({ ownerId: new ObjectId(req.user.id) })
+    .sort({ updatedAt: -1 })
     .toArray();
   res.json(palettes);
 });
@@ -31,12 +32,14 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { name, sourceImageName, colors } = req.body;
+  const now = new Date();
   const palette = {
     ownerId: new ObjectId(req.user.id),
     name,
     sourceImageName,
     colors: colors ?? [],
-    extractedAt: new Date(),
+    createdAt: now,
+    updatedAt: now,
   };
   const result = await getDB().collection(COLLECTION).insertOne(palette);
   res.status(201).json({ ...palette, _id: result.insertedId });
@@ -47,7 +50,7 @@ router.put("/:id", async (req, res) => {
     return res.status(404).json({ error: "Palette not found" });
   }
   const { name, colors, sourceImageName } = req.body;
-  const updates = {};
+  const updates = { updatedAt: new Date() };
   if (name !== undefined) updates.name = name;
   if (colors !== undefined) updates.colors = colors;
   if (sourceImageName !== undefined) updates.sourceImageName = sourceImageName;

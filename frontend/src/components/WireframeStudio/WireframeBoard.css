@@ -3,6 +3,11 @@
   overflow-x: auto;
 }
 
+.wireframe-board-wrapper:focus {
+  outline: 2px dashed var(--color-text-dim);
+  outline-offset: 2px;
+}
+
 .wireframe-board {
   position: relative;
   width: 800px;
@@ -11,4 +16,16 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   overflow: hidden;
+}
+
+.wireframe-board-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  color: var(--color-text-dim);
+  font-size: 0.9rem;
+  pointer-events: none;
+  user-select: none;
 }

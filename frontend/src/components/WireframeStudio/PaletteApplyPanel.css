@@ -3,7 +3,7 @@
   border-top: 1px solid var(--color-border);
 }
 
-.palette-apply-panel h4 {
+.palette-apply-panel h3 {
   margin: 0 0 0.5rem;
   font-size: 0.9rem;
 }
@@ -39,4 +39,10 @@ button {
   border-radius: var(--radius-sm);
   background: transparent;
   cursor: pointer;
+}
+
+.palette-apply-shuffle-hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
 }

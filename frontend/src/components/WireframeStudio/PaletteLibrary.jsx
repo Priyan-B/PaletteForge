@@ -18,7 +18,7 @@ function PaletteLibrary({ refreshKey, onSelect, onEdit, onDelete }) {
 
   return (
     <div className="palette-library">
-      <h3>My Extracted Palettes</h3>
+      <h2>My Extracted Palettes</h2>
       {palettes.length === 0 && <p>No saved palettes yet.</p>}
       <ul>
         {palettes.map((palette) => (
@@ -40,7 +40,11 @@ function PaletteLibrary({ refreshKey, onSelect, onEdit, onDelete }) {
               <button type="button" onClick={() => onEdit(palette)}>
                 Edit
               </button>
-              <button type="button" onClick={() => handleDelete(palette)}>
+              <button
+                type="button"
+                className="danger"
+                onClick={() => handleDelete(palette)}
+              >
                 Delete
               </button>
             </div>

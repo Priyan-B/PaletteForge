@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, cloneElement } from "react";
 import PropTypes from "prop-types";
 import "./AuthGate.css";
 
@@ -103,17 +103,7 @@ function AuthGate({ children }) {
     );
   }
 
-  return (
-    <>
-      <div className="auth__bar">
-        <span className="auth__who">Signed in as {user.username}</span>
-        <button type="button" className="auth__logout" onClick={logout}>
-          Log out
-        </button>
-      </div>
-      {children}
-    </>
-  );
+  return cloneElement(children, { authUser: user, onLogout: logout });
 }
 
 AuthGate.propTypes = {

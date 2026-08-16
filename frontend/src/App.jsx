@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import WireframeStudio from "./components/WireframeStudio/WireframeStudio.jsx";
 import AccessibilityToolkit from "./components/AccessibilityToolkit/AccessibilityToolkit.jsx";
 import "./App.css";
@@ -8,7 +9,7 @@ const VIEWS = {
   contrast: { label: "Accessibility Toolkit" },
 };
 
-function App() {
+function App({ authUser, onLogout }) {
   const [currentView, setCurrentView] = useState("wireframes");
   const [handoffColors, setHandoffColors] = useState(null);
 
@@ -20,7 +21,13 @@ function App() {
   return (
     <div className="app">
       <nav className="app-nav">
-        <h1 className="app-title">PaletteForge</h1>
+        <div className="app-brand">
+          <h1 className="app-title">PaletteForge</h1>
+          <p className="app-tagline">
+            Sketch layouts, extract colors from images, and check them for
+            accessibility
+          </p>
+        </div>
         <div className="app-nav-tabs">
           {Object.entries(VIEWS).map(([key, { label }]) => (
             <button
@@ -35,12 +42,18 @@ function App() {
             </button>
           ))}
         </div>
+        <div className="app-auth">
+          <span className="app-auth-who">Signed in as {authUser.username}</span>
+          <button type="button" className="app-auth-logout" onClick={onLogout}>
+            Log out
+          </button>
+        </div>
       </nav>
-      <p className="mobile-notice">
-        PaletteForge works best on a larger screen — dragging, resizing, and
-        color picking may not work well on mobile.
-      </p>
       <main className="app-main">
+        <p className="mobile-notice">
+          PaletteForge works best on a larger screen — dragging, resizing, and
+          color picking may not work well on mobile.
+        </p>
         {currentView === "wireframes" ? (
           <WireframeStudio onSendToAccessibility={handleSendToAccessibility} />
         ) : (
@@ -61,5 +74,11 @@ function App() {
     </div>
   );
 }
+
+App.propTypes = {
+  authUser: PropTypes.shape({ username: PropTypes.string.isRequired })
+    .isRequired,
+  onLogout: PropTypes.func.isRequired,
+};
 
 export default App;

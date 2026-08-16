@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import WireframeBoard from "./WireframeBoard.jsx";
 import WireframeLibrary from "./WireframeLibrary.jsx";
 import PaletteExtractor from "./PaletteExtractor.jsx";
 import PaletteLibrary from "./PaletteLibrary.jsx";
 import PaletteApplyPanel from "./PaletteApplyPanel.jsx";
+import Toast from "./Toast.jsx";
 import { createWireframe, updateWireframe } from "../../api/wireframes.js";
 import { createPalette, updatePalette } from "../../api/palettes.js";
 import { shuffleArray } from "../../utils/shuffleArray.js";
@@ -31,6 +32,7 @@ function createShape(type) {
     fillColor: "#ffffff",
     showText: false,
     textColor: "#000000",
+    text: "Double-click to edit",
   };
 }
 
@@ -47,6 +49,16 @@ function WireframeStudio({ onSendToAccessibility }) {
   const [paletteName, setPaletteName] = useState("Untitled Palette");
   const [paletteCurrentId, setPaletteCurrentId] = useState(null);
   const [paletteSourceImageName, setPaletteSourceImageName] = useState("");
+
+  const [toastMessage, setToastMessage] = useState(null);
+  const toastTimeoutRef = useRef(null);
+  const [showShortcuts, setShowShortcuts] = useState(false);
+
+  const showToast = (message) => {
+    setToastMessage(message);
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+    toastTimeoutRef.current = setTimeout(() => setToastMessage(null), 2500);
+  };
 
   const addShape = (type) => {
     const shape = createShape(type);
@@ -82,6 +94,7 @@ function WireframeStudio({ onSendToAccessibility }) {
       setCurrentId(created._id);
     }
     setRefreshKey((key) => key + 1);
+    showToast("Wireframe saved");
   };
 
   const handleLoad = (wireframe) => {
@@ -107,7 +120,7 @@ function WireframeStudio({ onSendToAccessibility }) {
   const handlePaletteSave = async () => {
     const data = {
       name: paletteName,
-      colors: paletteColors,
+      colors: paletteColors.map(({ hex }) => ({ hex })),
       sourceImageName: paletteSourceImageName,
     };
     let saved;
@@ -121,10 +134,11 @@ function WireframeStudio({ onSendToAccessibility }) {
       setSelectedPalette(saved);
     }
     setPaletteRefreshKey((key) => key + 1);
+    showToast("Palette saved");
   };
 
   const handlePaletteEdit = (palette) => {
-    setPaletteColors(palette.colors);
+    setPaletteColors(palette.colors.map(({ hex }) => ({ hex })));
     setPaletteName(palette.name);
     setPaletteCurrentId(palette._id);
     setPaletteSourceImageName(palette.sourceImageName || "");
@@ -177,6 +191,7 @@ function WireframeStudio({ onSendToAccessibility }) {
           <input
             type="text"
             className="wireframe-name-input"
+            aria-label="Wireframe name"
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
@@ -246,11 +261,43 @@ function WireframeStudio({ onSendToAccessibility }) {
           </div>
           <button
             type="button"
+            className="danger"
             disabled={!selectedShape}
             onClick={() => selectedShape && deleteShape(selectedShape.id)}
           >
             Delete Shape
           </button>
+        </div>
+        <div className="wireframe-shortcuts">
+          <button
+            type="button"
+            className="wireframe-shortcuts-toggle"
+            aria-expanded={showShortcuts}
+            onClick={() => setShowShortcuts((prev) => !prev)}
+          >
+            ⌨ Keyboard shortcuts
+          </button>
+          {showShortcuts && (
+            <ul className="wireframe-shortcuts-list">
+              <li>
+                <kbd>Tab</kbd> — move focus to the next shape (also selects it)
+              </li>
+              <li>
+                <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> — move the
+                focused shape
+              </li>
+              <li>
+                <kbd>Shift</kbd> + arrow keys — resize the focused shape
+              </li>
+              <li>
+                <kbd>Escape</kbd> — deselect the focused shape
+              </li>
+              <li>
+                Tab to &quot;Delete Shape&quot;, then <kbd>Enter</kbd> — delete
+                the focused shape
+              </li>
+            </ul>
+          )}
         </div>
       </div>
       <div className="wireframe-workspace">
@@ -287,6 +334,10 @@ function WireframeStudio({ onSendToAccessibility }) {
                 onMatch={handleManualMatch}
                 onShuffle={handleShuffle}
               />
+              <p className="wireframe-accessibility-hint">
+                Send this palette to the Accessibility Toolkit to check its
+                contrast
+              </p>
               <button
                 type="button"
                 className="wireframe-send-to-accessibility"
@@ -306,6 +357,7 @@ function WireframeStudio({ onSendToAccessibility }) {
           />
         </div>
       </div>
+      <Toast message={toastMessage} />
     </div>
   );
 }
