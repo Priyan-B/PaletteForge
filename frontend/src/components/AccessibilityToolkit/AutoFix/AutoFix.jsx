@@ -1,71 +1,106 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 import PropTypes from "prop-types";
 import { checkPair, autoFixColor } from "../../../utils/wcag";
 import "./AutoFix.css";
 
-function AutoFix({ foreground, background, target, onAccept }) {
-  const [fix, setFix] = useState(null);
+function safeCheck(a, b, opts) {
+  try {
+    return checkPair(a, b, opts);
+  } catch {
+    return null;
+  }
+}
 
-  const fg = foreground;
-  const bg = background;
+/**
+ * Rendered inside ContrastChecker whenever the current pair fails AA.
+ * Nudges the foreground's lightness until it meets the target, keeping hue.
+ */
+function AutoFix({
+  foreground,
+  background,
+  target = 4.5,
+  large = false,
+  onAccept = () => {},
+}) {
+  const [fix, setFix] = useState(null);
+  const titleId = useId();
 
   useEffect(() => {
     setFix(null);
-  }, [foreground, background]);
+  }, [foreground, background, large]);
 
-  const before = safeCheck(fg, bg);
+  const before = safeCheck(foreground, background, { large });
+  const after =
+    fix && fix.fixed ? safeCheck(fix.fixed, background, { large }) : null;
 
   function run() {
     try {
-      setFix(autoFixColor(fg, bg, { target }));
+      setFix(autoFixColor(foreground, background, { target, large }));
     } catch (e) {
       setFix({ passed: false, note: e.message, fixed: null });
     }
   }
 
-  const afterRatio = fix && fix.fixed ? safeCheck(fix.fixed, bg) : null;
-
   return (
-    <section className="af">
-      <h2 className="af__title">Auto-Fix</h2>
+    <section className="af" aria-labelledby={titleId}>
+      <h3 className="af__title" id={titleId}>
+        Fix this colour
+      </h3>
+      <p className="af__intro">
+        This pair fails AA. Auto-Fix adjusts the foreground&rsquo;s lightness
+        until it passes, keeping the same hue.
+      </p>
 
       <div className="af__panel">
         <div className="af__side">
           <span className="af__label">Before</span>
-          <div className="af__swatch" style={{ background: bg, color: fg }}>
+          <div
+            className="af__swatch"
+            style={{ background: background, color: foreground }}
+            aria-hidden="true"
+          >
             Aa
           </div>
-          <code>{fg}</code>
+          <code>{foreground}</code>
           <span
             className={`af__ratio ${before && before.AA ? "pass" : "fail"}`}
           >
             {before ? `${before.ratio}:1` : "—"}
           </span>
         </div>
-
-        <div className="af__arrow">→</div>
-
+        <div className="af__arrow" aria-hidden="true">
+          →
+        </div>
         <div className="af__side">
           <span className="af__label">After</span>
           <div
             className="af__swatch"
             style={{
-              background: bg,
+              background: background,
               color: fix && fix.fixed ? fix.fixed : "var(--color-text-dim)",
             }}
+            aria-hidden="true"
           >
             Aa
           </div>
           <code>{fix && fix.fixed ? fix.fixed : "—"}</code>
-          <span
-            className={`af__ratio ${afterRatio && afterRatio.AA ? "pass" : "fail"}`}
-          >
-            {afterRatio ? `${afterRatio.ratio}:1` : "—"}
+          <span className={`af__ratio ${after && after.AA ? "pass" : "fail"}`}>
+            {after ? `${after.ratio}:1` : "—"}
           </span>
         </div>
       </div>
 
-      {fix && fix.note && <p className="af__note">{fix.note}</p>}
+      <div className="af__status" role="status">
+        {fix && fix.fixed && (
+          <p className="af__summary">
+            Fixed foreground <code>{fix.fixed}</code> at {fix.achievedRatio}:1{" "}
+            <span className={after && after.AA ? "pass" : "fail"}>
+              {after && after.AA ? "AA Pass" : "AA Fail"}
+            </span>
+          </p>
+        )}
+        {fix && fix.note && <p className="af__note">{fix.note}</p>}
+      </div>
 
       <div className="af__actions">
         <button type="button" onClick={run}>
@@ -77,7 +112,7 @@ function AutoFix({ foreground, background, target, onAccept }) {
             className="af__accept"
             onClick={() => onAccept(fix.fixed)}
           >
-            Accept fix
+            Use this colour
           </button>
         )}
       </div>
@@ -85,24 +120,12 @@ function AutoFix({ foreground, background, target, onAccept }) {
   );
 }
 
-function safeCheck(a, b) {
-  try {
-    return checkPair(a, b);
-  } catch {
-    return null;
-  }
-}
-
 AutoFix.propTypes = {
   foreground: PropTypes.string.isRequired,
   background: PropTypes.string.isRequired,
   target: PropTypes.number,
+  large: PropTypes.bool,
   onAccept: PropTypes.func,
-};
-
-AutoFix.defaultProps = {
-  target: 4.5,
-  onAccept: () => {},
 };
 
 export default AutoFix;

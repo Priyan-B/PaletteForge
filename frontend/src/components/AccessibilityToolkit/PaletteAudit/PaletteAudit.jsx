@@ -34,7 +34,12 @@ function PaletteAudit() {
   }
 
   async function handleGenerate() {
-    if (!selectedId) return;
+    // Kept focusable via aria-disabled so keyboard and screen reader users get
+    // an explanation instead of a silently inert button.
+    if (!selectedId) {
+      setError("Select a palette from the list first.");
+      return;
+    }
     setError(null);
     try {
       const report = await generateReport(selectedId);
@@ -56,54 +61,89 @@ function PaletteAudit() {
   }
 
   return (
-    <section className="pa">
-      <h2 className="pa__title">Audit &amp; Report</h2>
+    <section className="pa" aria-labelledby="pa-title">
+      <h2 className="pa__title" id="pa-title">
+        Audit &amp; Report
+      </h2>
+      <p className="pa__intro">
+        Pick a saved palette to check every role pairing against the WCAG AA
+        contrast threshold.
+      </p>
 
       <div className="pa__controls">
-        <select
-          value={selectedId}
-          onChange={(e) => setSelectedId(e.target.value)}
+        <div className="pa__field">
+          <label className="pa__label" htmlFor="pa-palette">
+            Palette
+          </label>
+          <select
+            id="pa-palette"
+            value={selectedId}
+            onChange={(e) => {
+              setSelectedId(e.target.value);
+              setError(null);
+            }}
+          >
+            <option value="">Select a palette…</option>
+            {palettes.map((p) => (
+              <option key={p._id} value={p._id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button
+          type="button"
+          onClick={handleGenerate}
+          aria-disabled={!selectedId}
+          aria-describedby="pa-generate-hint"
+          title={
+            selectedId ? undefined : "Select a palette to generate a report"
+          }
         >
-          <option value="">Select a palette…</option>
-          {palettes.map((p) => (
-            <option key={p._id} value={p._id}>
-              {p.name}
-            </option>
-          ))}
-        </select>
-        <button type="button" onClick={handleGenerate} disabled={!selectedId}>
           Generate report
         </button>
       </div>
+      <p className="pa__hint" id="pa-generate-hint">
+        Select a palette to enable the report.
+      </p>
 
-      {error && <p className="pa__error">{error}</p>}
+      {error && (
+        <p className="pa__error" role="alert">
+          {error}
+        </p>
+      )}
 
       {active && (
         <div className="pa__report">
-          <div className="pa__summary">
+          <p className="pa__summary">
             <strong>{active.paletteName}</strong> — {active.summary.aaFails} of{" "}
             {active.summary.total} pairs fail AA
-          </div>
+          </p>
           <table className="pa__table">
+            <caption className="pa__caption">
+              Contrast results for each role pairing
+            </caption>
             <thead>
               <tr>
-                <th>Pair</th>
-                <th>Ratio</th>
-                <th>AA</th>
-                <th>AAA</th>
+                <th scope="col">Pair</th>
+                <th scope="col">Ratio</th>
+                <th scope="col">AA</th>
+                <th scope="col">AAA</th>
               </tr>
             </thead>
             <tbody>
-              {active.pairs.map((p, i) => (
-                <tr key={i}>
+              {active.pairs.map((p) => (
+                <tr key={`${p.fgRole}-${p.bgRole}`}>
                   <td>
                     <span
                       className="pa__chip"
                       style={{ background: p.fgHex }}
+                      aria-hidden="true"
                     />
                     <span
                       className="pa__chip"
                       style={{ background: p.bgHex }}
+                      aria-hidden="true"
                     />
                     {p.fgRole} on {p.bgRole}
                   </td>
@@ -118,6 +158,10 @@ function PaletteAudit() {
               ))}
             </tbody>
           </table>
+          <p className="pa__muted">
+            A failing pair means text in that colour will be hard to read on
+            that background. Open the Contrast Checker to adjust and fix it.
+          </p>
         </div>
       )}
 
@@ -140,10 +184,11 @@ function PaletteAudit() {
               </span>
               <button
                 type="button"
-                className="pa__ghost"
+                className="pa__ghost danger"
                 onClick={() => handleDelete(r._id)}
               >
                 Delete
+                <span className="pa__sr"> {r.paletteName} report</span>
               </button>
             </li>
           ))}

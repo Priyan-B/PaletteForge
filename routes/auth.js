@@ -5,15 +5,22 @@ import { createUser } from "../auth.js";
 
 const router = express.Router();
 
+/** Minimum password length enforced at registration. */
+const MIN_PASSWORD_LENGTH = 8;
+
 router.post("/register", async (req, res, next) => {
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).json({ error: "username and password required" });
   }
+  if (String(password).length < MIN_PASSWORD_LENGTH) {
+    return res.status(400).json({
+      error: `Password must be at least ${MIN_PASSWORD_LENGTH} characters`,
+    });
+  }
   try {
     const existing = await getDB().collection("users").findOne({ username });
     if (existing) return res.status(409).json({ error: "username taken" });
-
     const user = await createUser(username, password);
     req.login(user, (err) => {
       if (err) return next(err);
@@ -34,8 +41,8 @@ router.post("/login", (req, res, next) => {
         .status(401)
         .json({ error: info?.message || "Incorrect username or password" });
     }
-    req.login(user, (err) => {
-      if (err) return next(err);
+    req.login(user, (loginErr) => {
+      if (loginErr) return next(loginErr);
       res.json({ id: user._id.toString(), username: user.username });
     });
   })(req, res, next);

@@ -9,9 +9,8 @@ import {
 import { ROLES } from "../../../utils/roles";
 import "./PaletteBuilder.css";
 
-function PaletteBuilder({ prefillColors }) {
+function PaletteBuilder({ prefillColors = undefined }) {
   const emptyColors = ROLES.map((role) => ({ role, hex: "#000000" }));
-
   const [name, setName] = useState("");
   const [colors, setColors] = useState(
     prefillColors && prefillColors.length ? prefillColors : emptyColors
@@ -85,13 +84,22 @@ function PaletteBuilder({ prefillColors }) {
   }
 
   return (
-    <section className="pb">
-      <h2 className="pb__title">Palette Builder</h2>
+    <section className="pb" aria-labelledby="pb-title">
+      <h2 className="pb__title" id="pb-title">
+        Palette Builder
+      </h2>
+      <p className="pb__intro">
+        Assign a colour to each interface role, then save the palette. Saved
+        palettes are checked for contrast in Audit &amp; Report.
+      </p>
 
+      <label className="pb__label" htmlFor="pb-name">
+        Palette name
+      </label>
       <input
+        id="pb-name"
         className="pb__name"
         type="text"
-        placeholder="Palette name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
@@ -121,7 +129,11 @@ function PaletteBuilder({ prefillColors }) {
         )}
       </div>
 
-      {error && <p className="pb__error">{error}</p>}
+      {error && (
+        <p className="pb__error" role="alert">
+          {error}
+        </p>
+      )}
 
       <h3 className="pb__subtitle">Saved palettes</h3>
       {loading ? (
@@ -151,13 +163,15 @@ function PaletteBuilder({ prefillColors }) {
                 onClick={() => startEdit(p)}
               >
                 Edit
+                <span className="pb__sr"> {p.name}</span>
               </button>
               <button
                 type="button"
-                className="pb__ghost"
+                className="pb__ghost danger"
                 onClick={() => handleDelete(p._id)}
               >
                 Delete
+                <span className="pb__sr"> {p.name}</span>
               </button>
             </li>
           ))}
@@ -174,10 +188,6 @@ PaletteBuilder.propTypes = {
       hex: PropTypes.string.isRequired,
     })
   ),
-};
-
-PaletteBuilder.defaultProps = {
-  prefillColors: undefined,
 };
 
 export default PaletteBuilder;
