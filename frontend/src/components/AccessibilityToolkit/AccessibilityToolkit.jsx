@@ -6,9 +6,9 @@ import PaletteAudit from "./PaletteAudit/PaletteAudit.jsx";
 import "./AccessibilityToolkit.css";
 
 /**
- * Auto-Fix is no longer a top-level tool. Usability testing showed all three
- * participants expected the fix to live beside the contrast result, so it is
- * now rendered inside ContrastChecker when a pairing fails.
+ * Usability testing showed all three
+ * participants expected the fix to live beside the contrast result, so
+ * I rendered inside ContrastChecker when a pairing fails.
  */
 const TOOLS = {
   checker: "Contrast Checker",
