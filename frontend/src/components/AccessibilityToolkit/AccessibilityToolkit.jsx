@@ -3,19 +3,22 @@ import PropTypes from "prop-types";
 import ContrastChecker from "./ContrastChecker/ContrastChecker.jsx";
 import PaletteBuilder from "./PaletteBuilder/PaletteBuilder.jsx";
 import PaletteAudit from "./PaletteAudit/PaletteAudit.jsx";
-import AutoFix from "./AutoFix/AutoFix.jsx";
 import "./AccessibilityToolkit.css";
 
+/**
+ * Auto-Fix is no longer a top-level tool. Usability testing showed all three
+ * participants expected the fix to live beside the contrast result, so it is
+ * now rendered inside ContrastChecker when a pairing fails.
+ */
 const TOOLS = {
   checker: "Contrast Checker",
   builder: "Palette Builder",
   audit: "Audit & Report",
-  autofix: "Auto-Fix",
 };
 
-function AccessibilityToolkit({ incomingColors }) {
+function AccessibilityToolkit({ incomingColors = undefined }) {
   const [tool, setTool] = useState(incomingColors ? "builder" : "checker");
-  const [fixPair, setFixPair] = useState({ fg: "#4A7BA7", bg: "#5B3A8F" });
+  const [pair, setPair] = useState({ fg: "#4A7BA7", bg: "#5B3A8F" });
 
   return (
     <div className="atk">
@@ -24,6 +27,7 @@ function AccessibilityToolkit({ incomingColors }) {
           <button
             key={key}
             type="button"
+            aria-pressed={key === tool}
             className={key === tool ? "atk__tab active" : "atk__tab"}
             onClick={() => setTool(key)}
           >
@@ -31,27 +35,18 @@ function AccessibilityToolkit({ incomingColors }) {
           </button>
         ))}
       </div>
-
       <div className="atk__panel">
         {tool === "checker" && (
           <ContrastChecker
-            foreground={fixPair.fg}
-            background={fixPair.bg}
-            onChange={(fg, bg) => setFixPair({ fg, bg })}
+            foreground={pair.fg}
+            background={pair.bg}
+            onChange={(fg, bg) => setPair({ fg, bg })}
           />
         )}
-
         {tool === "builder" && (
           <PaletteBuilder prefillColors={incomingColors} />
         )}
         {tool === "audit" && <PaletteAudit />}
-        {tool === "autofix" && (
-          <AutoFix
-            foreground={fixPair.fg}
-            background={fixPair.bg}
-            onAccept={(hex) => setFixPair((p) => ({ ...p, fg: hex }))}
-          />
-        )}
       </div>
     </div>
   );
@@ -64,10 +59,6 @@ AccessibilityToolkit.propTypes = {
       hex: PropTypes.string.isRequired,
     })
   ),
-};
-
-AccessibilityToolkit.defaultProps = {
-  incomingColors: undefined,
 };
 
 export default AccessibilityToolkit;

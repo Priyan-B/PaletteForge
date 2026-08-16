@@ -3,14 +3,16 @@
   /* ===== PALETTE — change only these to swap the whole theme ===== */
   --palette-bg: #ffffff;
   --palette-surface: #f8f9fa;
-  --palette-border: #e5e7eb;
+  --palette-border: #d4d7dd;
   --palette-text: #1a1a1a;
-  --palette-text-dim: #6b7280;
+  --palette-text-dim: #5c6470;
   --palette-primary: #7c5a96;
   --palette-primary-light: #c5b3d3;
-  --palette-pass: #16a34a;
+  /* Pass/fail darkened so the badges themselves clear 4.5:1 against their
+     own tinted backgrounds — required for an accessibility tool to pass axe. */
+  --palette-pass: #15803d;
   --palette-pass-bg: #f0fdf4;
-  --palette-fail: #dc2626;
+  --palette-fail: #b91c1c;
   --palette-fail-bg: #fef2f2;
 
   /* ===== SEMANTIC ROLES ===== */
@@ -27,8 +29,7 @@
   --color-fail-bg: var(--palette-fail-bg);
 
   /* ===== TYPOGRAPHY ===== */
-  --font-heading: "Space Grotesk", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* ===== SPACING ===== */
   --radius-sm: 4px;
@@ -51,8 +52,11 @@ body {
   color: var(--color-text);
 }
 
-h1,
-h2,
-h3 {
-  font-family: var(--font-heading);
+/* ===== KEYBOARD FOCUS =====
+   A single visible focus ring for every interactive element, offset so it
+   remains visible on primary-coloured buttons. */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
