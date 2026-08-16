@@ -52,6 +52,7 @@ function WireframeStudio({ onSendToAccessibility }) {
 
   const [toastMessage, setToastMessage] = useState(null);
   const toastTimeoutRef = useRef(null);
+  const [showShortcuts, setShowShortcuts] = useState(false);
 
   const showToast = (message) => {
     setToastMessage(message);
@@ -190,6 +191,7 @@ function WireframeStudio({ onSendToAccessibility }) {
           <input
             type="text"
             className="wireframe-name-input"
+            aria-label="Wireframe name"
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
@@ -259,11 +261,43 @@ function WireframeStudio({ onSendToAccessibility }) {
           </div>
           <button
             type="button"
+            className="danger"
             disabled={!selectedShape}
             onClick={() => selectedShape && deleteShape(selectedShape.id)}
           >
             Delete Shape
           </button>
+        </div>
+        <div className="wireframe-shortcuts">
+          <button
+            type="button"
+            className="wireframe-shortcuts-toggle"
+            aria-expanded={showShortcuts}
+            onClick={() => setShowShortcuts((prev) => !prev)}
+          >
+            ⌨ Keyboard shortcuts
+          </button>
+          {showShortcuts && (
+            <ul className="wireframe-shortcuts-list">
+              <li>
+                <kbd>Tab</kbd> — move focus to the next shape (also selects it)
+              </li>
+              <li>
+                <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> — move the
+                focused shape
+              </li>
+              <li>
+                <kbd>Shift</kbd> + arrow keys — resize the focused shape
+              </li>
+              <li>
+                <kbd>Escape</kbd> — deselect the focused shape
+              </li>
+              <li>
+                Tab to &quot;Delete Shape&quot;, then <kbd>Enter</kbd> — delete
+                the focused shape
+              </li>
+            </ul>
+          )}
         </div>
       </div>
       <div className="wireframe-workspace">

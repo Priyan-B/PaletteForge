@@ -27,7 +27,8 @@
   --color-fail-bg: var(--palette-fail-bg);
 
   /* ===== TYPOGRAPHY ===== */
-  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-heading: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* ===== SPACING ===== */
   --radius-sm: 4px;
@@ -48,4 +49,10 @@ body {
   font-family: var(--font-body);
   background: var(--color-bg);
   color: var(--color-text);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
 }

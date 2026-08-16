@@ -3,6 +3,11 @@
   overflow-x: auto;
 }
 
+.wireframe-board-wrapper:focus {
+  outline: 2px dashed var(--color-text-dim);
+  outline-offset: 2px;
+}
+
 .wireframe-board {
   position: relative;
   width: 800px;

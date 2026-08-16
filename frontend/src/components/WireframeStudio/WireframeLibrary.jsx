@@ -18,7 +18,7 @@ function WireframeLibrary({ refreshKey, onLoad, onDelete }) {
 
   return (
     <div className="wireframe-library">
-      <h3>My Wireframes</h3>
+      <h2>My Wireframes</h2>
       {wireframes.length === 0 && <p>No saved wireframes yet.</p>}
       <ul>
         {wireframes.map((wireframe) => (
@@ -28,7 +28,11 @@ function WireframeLibrary({ refreshKey, onLoad, onDelete }) {
               <button type="button" onClick={() => onLoad(wireframe)}>
                 Load
               </button>
-              <button type="button" onClick={() => handleDelete(wireframe)}>
+              <button
+                type="button"
+                className="danger"
+                onClick={() => handleDelete(wireframe)}
+              >
                 Delete
               </button>
             </div>

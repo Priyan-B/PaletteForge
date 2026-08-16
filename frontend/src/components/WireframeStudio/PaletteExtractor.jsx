@@ -36,7 +36,7 @@ function PaletteExtractor({
 
   return (
     <div className="palette-extractor">
-      <h3>Extract Palette from Image</h3>
+      <h2>Extract Palette from Image</h2>
       <p className="palette-extractor-hint">
         Upload a photo and we&apos;ll automatically pull out its most common
         colors
@@ -45,10 +45,16 @@ function PaletteExtractor({
         <input
           type="text"
           className="palette-name-input"
+          aria-label="Palette name"
           value={name}
           onChange={(event) => onNameChange(event.target.value)}
         />
-        <input type="file" accept="image/*" onChange={handleFileChange} />
+        <input
+          type="file"
+          accept="image/*"
+          aria-label="Upload image to extract palette from"
+          onChange={handleFileChange}
+        />
       </div>
       {colors.length > 0 && (
         <div className="palette-swatches">

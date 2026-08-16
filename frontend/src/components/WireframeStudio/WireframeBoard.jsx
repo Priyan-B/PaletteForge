@@ -10,7 +10,12 @@ function WireframeBoard({
   onDeselect,
 }) {
   return (
-    <div className="wireframe-board-wrapper">
+    <div
+      className="wireframe-board-wrapper"
+      tabIndex={0}
+      role="region"
+      aria-label="Wireframe canvas, scroll horizontally if content overflows"
+    >
       <div
         className="wireframe-board"
         onMouseDown={(event) => {
@@ -31,6 +36,7 @@ function WireframeBoard({
             isSelected={shape.id === selectedId}
             onSelect={onSelect}
             onChange={onChange}
+            onDeselect={onDeselect}
           />
         ))}
       </div>

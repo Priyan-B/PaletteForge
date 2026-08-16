@@ -21,7 +21,7 @@ A full-stack design tool that pairs a wireframe board with an accessibility tool
 ## Deployment
 
 The app is deployed at:
-[https://paletteforge.onrender.com](https://paletteforge.onrender.com)
+[https://paletteforge-hb8y.onrender.com](https://paletteforge-hb8y.onrender.com)
 
 ---
 
@@ -85,6 +85,41 @@ PaletteForge is a single-page app with no client-side router — navigation betw
 | --------------------- | --------- | ------------------------------------------------------------------------------------------- |
 | Wireframe Studio      | Aishwarya | Shape board, wireframe library, image palette extraction, palette library, apply/shuffle    |
 | Accessibility Toolkit | Priyan    | Contrast Checker, Palette Builder, Audit & Report, Auto-Fix (sub-tabs within the same view) |
+
+---
+
+## Accessibility
+
+**Keyboard support — Wireframe Studio shape board:**
+
+| Key                                           | Action                                                          |
+| --------------------------------------------- | --------------------------------------------------------------- |
+| `Tab`                                         | Move focus to the next shape (also selects it)                  |
+| `↑` `↓` `←` `→`                               | Move the focused shape                                          |
+| `Shift` + `↑` `↓` `←` `→`                     | Resize the focused shape (Up/Down = height, Left/Right = width) |
+| `Escape`                                      | Deselect the focused shape                                      |
+| `Tab` to "Delete Shape", then `Enter`/`Space` | Delete the focused shape                                        |
+
+Adding shapes ("Add Rectangle" / "Add Circle") and every other control in the toolbar are standard `<button>`/`<input>` elements, so they're keyboard-operable by default — no mouse is required anywhere in the wireframe workflow.
+
+**Other accessibility work:**
+
+- Each shape has a descriptive `aria-label` (e.g., "Rectangle shape. Use arrow keys to move, Shift with arrow keys to resize.") for screen reader users.
+- Focus is always visibly indicated: a solid outline on the selected shape, and a distinct dashed outline on the scrollable board region itself (so keyboard users can tell the two apart).
+- Colors carry consistent meaning across the app — e.g., the save-confirmation toast reuses the same green already used for "AA Pass" badges in the Contrast Checker, rather than introducing an unrelated color for "success."
+
+An in-app "Keyboard shortcuts" reference is available next to the wireframe toolbar (click to expand) — the same reference as the table above, without cluttering the UI by default.
+
+**Accessibility across devices:**
+
+PaletteForge is a single responsive codebase, so the same accessibility support applies whether it's opened on a desktop browser, a tablet, or a phone — there's no separate "mobile version" with different guarantees.
+
+- Every input, button, checkbox, and color picker has an accessible name (via a visible label or `aria-label`), so screen readers — VoiceOver on iOS, TalkBack on Android, NVDA/JAWS on desktop — announce every control correctly no matter the device.
+- Headings follow one correct hierarchy (`h1 → h2 → h3`) throughout both views, so screen reader users can jump by heading level on any screen size.
+- All page content lives inside a semantic landmark (`<nav>`, `<main>`, `<footer>`) — including account info and the small-screen notice — so landmark-based navigation works everywhere.
+- The layout reflows instead of requiring horizontal scrolling at narrow widths, and pinch-to-zoom is never disabled, so low-vision users can zoom in on any device.
+- Touch targets meet the WCAG 2.5.8 minimum size (24×24px), and motion respects the OS-level `prefers-reduced-motion` setting — animations like the save-confirmation toast are skipped for users who've turned that on.
+- Verified with an automated [axe-core](https://github.com/dequelabs/axe-core) audit at both desktop and mobile (375px) viewport widths: zero violations.
 
 ---
 

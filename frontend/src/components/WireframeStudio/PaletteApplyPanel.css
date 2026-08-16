@@ -3,7 +3,7 @@
   border-top: 1px solid var(--color-border);
 }
 
-.palette-apply-panel h4 {
+.palette-apply-panel h3 {
   margin: 0 0 0.5rem;
   font-size: 0.9rem;
 }

@@ -16,6 +16,16 @@
   outline-offset: 1px;
 }
 
+.shape:focus {
+  /* Focusing a shape always selects it (see onFocus), so .shape-selected's
+     outline already gives clear focus feedback — avoid a duplicate ring. */
+  outline: none;
+}
+
+.shape:focus.shape-selected {
+  outline: 2px solid var(--color-primary);
+}
+
 .shape-text {
   font-size: 0.75rem;
   text-align: center;

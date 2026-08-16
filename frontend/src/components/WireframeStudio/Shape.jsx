@@ -33,7 +33,9 @@ function trackDrag(onMove, onEnd) {
   window.addEventListener("mouseup", handleMouseUp);
 }
 
-function Shape({ shape, isSelected, onSelect, onChange }) {
+const MOVE_STEP = 5;
+
+function Shape({ shape, isSelected, onSelect, onChange, onDeselect }) {
   const [isEditingText, setIsEditingText] = useState(false);
   const [draftText, setDraftText] = useState(shape.text ?? DEFAULT_TEXT);
 
@@ -92,6 +94,44 @@ function Shape({ shape, isSelected, onSelect, onChange }) {
     });
   };
 
+  const handleKeyDown = (event) => {
+    if (isEditingText) return;
+
+    if (event.key === "Escape") {
+      event.currentTarget.blur();
+      onDeselect();
+      return;
+    }
+
+    const isArrow = [
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+    ].includes(event.key);
+    if (!isArrow) return;
+    event.preventDefault();
+
+    if (event.shiftKey) {
+      let { width, height } = shape;
+      if (event.key === "ArrowRight") width += MOVE_STEP;
+      if (event.key === "ArrowLeft") width -= MOVE_STEP;
+      if (event.key === "ArrowDown") height += MOVE_STEP;
+      if (event.key === "ArrowUp") height -= MOVE_STEP;
+      onChange(shape.id, {
+        width: Math.max(MIN_SIZE, width),
+        height: Math.max(MIN_SIZE, height),
+      });
+    } else {
+      let { x, y } = shape;
+      if (event.key === "ArrowRight") x += MOVE_STEP;
+      if (event.key === "ArrowLeft") x -= MOVE_STEP;
+      if (event.key === "ArrowDown") y += MOVE_STEP;
+      if (event.key === "ArrowUp") y -= MOVE_STEP;
+      onChange(shape.id, { x, y });
+    }
+  };
+
   const style = {
     left: shape.x,
     top: shape.y,
@@ -106,6 +146,11 @@ function Shape({ shape, isSelected, onSelect, onChange }) {
       className={isSelected ? "shape shape-selected" : "shape"}
       style={style}
       onMouseDown={startMove}
+      tabIndex={0}
+      role="button"
+      aria-label={`${shape.type === "circle" ? "Circle" : "Rectangle"} shape. Use arrow keys to move, Shift with arrow keys to resize.`}
+      onFocus={() => onSelect(shape.id)}
+      onKeyDown={handleKeyDown}
     >
       {shape.showText && isEditingText && (
         <input
@@ -160,6 +205,7 @@ Shape.propTypes = {
   isSelected: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  onDeselect: PropTypes.func.isRequired,
 };
 
 export default Shape;

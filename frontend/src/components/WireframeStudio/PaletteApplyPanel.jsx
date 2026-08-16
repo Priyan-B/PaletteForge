@@ -4,7 +4,7 @@ import "./PaletteApplyPanel.css";
 function PaletteApplyPanel({ palette, canMatch, onMatch, onShuffle }) {
   return (
     <div className="palette-apply-panel">
-      <h4>Selected: {palette.name}</h4>
+      <h3>Selected: {palette.name}</h3>
       <div className="palette-apply-swatches">
         {palette.colors.map((color, index) => (
           <button
