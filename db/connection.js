@@ -1,3 +1,4 @@
+// Add comments of what this is doing
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 
